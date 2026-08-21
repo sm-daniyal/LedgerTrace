@@ -1,0 +1,13 @@
+{
+  "version": "2026.1",
+  "merchant_id": "MERCHANT_TECHSTORE_IN",
+  "rates": {
+    "UPI": 0.0,
+    "DEBIT_CARD": 0.9,
+    "CREDIT_CARD": 1.8,
+    "NET_BANKING": 1.5,
+    "INTERNATIONAL_CARD": 3.0
+  },
+  "gst_rate": 0.18,
+  "settlement_sla_hours": 48
+}
