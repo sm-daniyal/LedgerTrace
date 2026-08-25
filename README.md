@@ -25,45 +25,9 @@ For high-growth merchants and payment aggregators processing millions of rupees 
 
 ## 2. Platform Architecture
 
-```
-                      +-------------------------------------------------------+
-                      |               3-WAY INGESTION PIPELINE               |
-                      |  1. Merchant OMS  |  2. Gateway MIS  |  3. Bank UTR   |
-                      +---------------------------+---------------------------+
-                                                  |
-                                                  v
-                      +-------------------------------------------------------+
-                      |         DETERMINISTIC INVARIANT MATH CALCULATOR       |
-                      |   Expected Fee = round((Gross * Contract Rate)/100)   |
-                      |   Expected GST = round(Expected Fee * 0.18, 2)        |
-                      |   Expected Net = Gross - (Expected Fee + GST)         |
-                      +---------------------------+---------------------------+
-                                                  |
-                                                  v
-                      +-------------------------------------------------------+
-                      |        4-TIER FINANCIAL PROVENANCE GRAPH (DAG)        |
-                      |  Merchant Order -> Gateway Capture -> Batch -> Bank   |
-                      +---------------------------+---------------------------+
-                                                  |
-                         +------------------------+------------------------+
-                         |                                                 |
-                         v                                                 v
-+-------------------------------------------------+   +-------------------------------------------------+
-|      STATISTICAL ANOMALY RADAR (5 ALGORITHMS)   |   |     AUTONOMOUS FORENSIC REASONING AGENT         |
-|  * Z-Score MDR Fee Drift Detection              |   |  * Multi-Step Deterministic Tool Execution      |
-|  * Settlement Velocity SLA Breach (>48h)        |   |  * Bayesian Hypothesis Probability Scoring      |
-|  * IQR Amount Outlier Isolation                 |   |  * SHA-256 Cryptographic Audit Hash Verification|
-|  * Surge Discrepancy Ratio Spike Tracker        |   |  * Downstream Operational Cashflow Assessment   |
-|  * Duplicate Gateway Charge Identifier          |   +------------------------+------------------------+
-+-------------------------------------------------+                            |
-                                                                               v
-                                                      +-------------------------------------------------+
-                                                      |       HUMAN-IN-THE-LOOP APPROVAL HUB (SOX)      |
-                                                      |  * Staged Double-Entry Journal Vouchers (JVs)   |
-                                                      |  * Gated Synthetic Webhook Replays              |
-                                                      |  * Formal Payment Aggregator Dispute Dossiers   |
-                                                      +-------------------------------------------------+
-```
+<p align="center">
+  <img src="architecture.svg" alt="LedgerTrace Platform Architecture" width="100%" />
+</p>
 
 ---
 
