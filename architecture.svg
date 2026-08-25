@@ -1,242 +1,163 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 820" width="100%" height="100%" style="background:#090D16; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 780" width="100%" height="100%" style="background:#FFFFFF; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;">
   <defs>
-    <!-- Gradients -->
-    <linearGradient id="primaryGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0.9"/>
-    </linearGradient>
-    <linearGradient id="cyanGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.8"/>
-      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.8"/>
-    </linearGradient>
-    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.95"/>
-      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.95"/>
-    </linearGradient>
-    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#6366F1"/>
-      <stop offset="50%" stop-color="#8B5CF6"/>
-      <stop offset="100%" stop-color="#EC4899"/>
-    </linearGradient>
-    <!-- Drop Shadow Filter -->
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5"/>
-    </filter>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="6" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
-    <!-- Arrowhead Marker -->
+    <!-- Simple Arrowhead -->
     <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 8 5 L 0 9 z" fill="#6366F1"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#1E293B"/>
     </marker>
-    <marker id="arrow-emerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 8 5 L 0 9 z" fill="#10B981"/>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563EB"/>
     </marker>
   </defs>
 
-  <!-- Grid Background Pattern -->
-  <g opacity="0.07">
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#FFFFFF" stroke-width="1"/>
-    </pattern>
-    <rect width="1100" height="820" fill="url(#grid)" />
+  <!-- Title Header -->
+  <g transform="translate(40, 30)">
+    <text x="0" y="20" fill="#0F172A" font-size="20" font-weight="700">LedgerTrace — System Architecture Diagram</text>
+    <text x="0" y="38" fill="#64748B" font-size="12">Autonomous 3-Way Financial Reconciliation, Lineage DAG &amp; Gated Approval Workflow</text>
   </g>
 
-  <!-- Header Section -->
-  <g transform="translate(50, 40)">
-    <rect x="0" y="0" width="42" height="42" rx="10" fill="url(#primaryGlow)" filter="url(#shadow)"/>
-    <text x="21" y="27" fill="#FFFFFF" font-size="18" font-weight="900" text-anchor="middle" font-family="monospace">LT</text>
-    
-    <text x="56" y="22" fill="#FFFFFF" font-size="22" font-weight="800" letter-spacing="-0.5">LedgerTrace Architecture</text>
-    <text x="56" y="40" fill="#94A3B8" font-size="13" font-weight="500">Autonomous 3-Way Financial Reconciliation &amp; Lineage Platform — Zero Math Hallucinations</text>
-    
-    <!-- Badges -->
-    <g transform="translate(730, 8)">
-      <rect x="0" y="0" width="130" height="26" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
-      <circle cx="12" cy="13" r="4" fill="#10B981"/>
-      <text x="24" y="17" fill="#E2E8F0" font-size="11" font-weight="600">39/39 TESTS PASS</text>
+  <!-- 1. TOP BOX: DATA INGESTION TIER -->
+  <g transform="translate(40, 85)">
+    <!-- Container Box -->
+    <rect width="880" height="95" rx="4" fill="#F8FAFC" stroke="#0F172A" stroke-width="1.5"/>
+    <rect x="0" y="0" width="220" height="22" rx="2" fill="#E2E8F0" stroke="#0F172A" stroke-width="1.5"/>
+    <text x="12" y="15" fill="#0F172A" font-size="11" font-weight="700">«subsystem» Data Ingestion Pipeline</text>
+
+    <!-- Sub-boxes -->
+    <g transform="translate(20, 35)">
+      <!-- Box 1 -->
+      <rect width="260" height="46" rx="3" fill="#FFFFFF" stroke="#334155" stroke-width="1.2"/>
+      <text x="12" y="18" fill="#0F172A" font-size="12" font-weight="600">Merchant OMS Feed</text>
+      <text x="12" y="34" fill="#64748B" font-size="10">Orders Database / CSV Export</text>
+
+      <!-- Box 2 -->
+      <g transform="translate(280, 0)">
+        <rect width="260" height="46" rx="3" fill="#FFFFFF" stroke="#334155" stroke-width="1.2"/>
+        <text x="12" y="18" fill="#0F172A" font-size="12" font-weight="600">Gateway Settlement MIS</text>
+        <text x="12" y="34" fill="#64748B" font-size="10">Razorpay / Stripe / PayU Feeds</text>
+      </g>
+
+      <!-- Box 3 -->
+      <g transform="translate(560, 0)">
+        <rect width="280" height="46" rx="3" fill="#FFFFFF" stroke="#334155" stroke-width="1.2"/>
+        <text x="12" y="18" fill="#0F172A" font-size="12" font-weight="600">Bank Statement Feeds</text>
+        <text x="12" y="34" fill="#64748B" font-size="10">HDFC / ICICI / SBI UTR Credits</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <line x1="480" y1="180" x2="480" y2="215" stroke="#0F172A" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 2. DETERMINISTIC INVARIANT ENGINE -->
+  <g transform="translate(40, 215)">
+    <rect width="880" height="80" rx="4" fill="#EFF6FF" stroke="#1E40AF" stroke-width="1.5"/>
+    <rect x="0" y="0" width="280" height="22" rx="2" fill="#DBEAFE" stroke="#1E40AF" stroke-width="1.5"/>
+    <text x="12" y="15" fill="#1E40AF" font-size="11" font-weight="700">«core engine» Deterministic Invariant Matcher</text>
+
+    <g transform="translate(20, 34)">
+      <text x="0" y="16" fill="#1E293B" font-size="12" font-weight="600">• Contract Rate Card Verification (MDR % + 18% GST)</text>
+      <text x="0" y="34" fill="#1E293B" font-size="12" font-weight="600">• Zero Math Hallucination: Strict 2-Decimal Precision Arithmetic</text>
       
-      <rect x="140" y="0" width="130" height="26" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
-      <text x="205" y="17" fill="#818CF8" font-size="11" font-weight="700" text-anchor="middle">SOX COMPLIANT</text>
+      <text x="560" y="16" fill="#1E40AF" font-size="11" font-family="monospace">Expected Fee = round((Gross * Rate)/100, 2)</text>
+      <text x="560" y="34" fill="#1E40AF" font-size="11" font-family="monospace">Net Payout = Gross - (Fee + GST)</text>
     </g>
   </g>
 
-  <!-- Flow Connectors (Lines) -->
-  <!-- Top Ingestion to Invariant Engine -->
-  <path d="M 550 190 L 550 230" stroke="#6366F1" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
-  
-  <!-- Invariant Engine to Lineage DAG -->
-  <path d="M 550 335 L 550 375" stroke="#6366F1" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
-  
-  <!-- Lineage DAG to Dual Branch (Anomaly Radar & Forensic Agent) -->
-  <path d="M 370 480 L 300 530" stroke="#6366F1" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
-  <path d="M 730 480 L 800 530" stroke="#6366F1" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
-  
-  <!-- Forensic Agent to SOX Approval Hub -->
-  <path d="M 800 680 L 800 710" stroke="#10B981" stroke-width="2.5" fill="none" marker-end="url(#arrow-emerald)"/>
+  <!-- Arrow 2 -> 3 -->
+  <line x1="480" y1="295" x2="480" y2="330" stroke="#0F172A" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <!-- TIER 1: 3-WAY INGESTION PIPELINE -->
-  <g transform="translate(50, 105)" filter="url(#shadow)">
-    <rect width="1000" height="85" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5"/>
-    
-    <g transform="translate(24, 18)">
-      <rect x="0" y="0" width="90" height="20" rx="4" fill="#4F46E5" fill-opacity="0.3"/>
-      <text x="45" y="14" fill="#A5B4FC" font-size="10" font-weight="800" text-anchor="middle">TIER 1</text>
-      <text x="102" y="16" fill="#F8FAFC" font-size="15" font-weight="700">Multi-Feed Ingestion Pipeline</text>
-      <text x="102" y="38" fill="#94A3B8" font-size="12">Continuous normalization of multi-source feeds with fuzzy column resolution and streaming SSE sync</text>
-    </g>
+  <!-- 3. FINANCIAL LINEAGE PROVENANCE DAG -->
+  <g transform="translate(40, 330)">
+    <rect width="880" height="105" rx="4" fill="#F8FAFC" stroke="#0F172A" stroke-width="1.5"/>
+    <rect x="0" y="0" width="270" height="22" rx="2" fill="#E2E8F0" stroke="#0F172A" stroke-width="1.5"/>
+    <text x="12" y="15" fill="#0F172A" font-size="11" font-weight="700">«provenance» 4-Tier Financial Lineage DAG</text>
 
-    <!-- 3 Feed Pills -->
-    <g transform="translate(620, 20)">
-      <rect x="0" y="0" width="110" height="45" rx="8" fill="#0F172A" stroke="#3B82F6" stroke-width="1.2"/>
-      <text x="55" y="20" fill="#93C5FD" font-size="11" font-weight="700" text-anchor="middle">Merchant OMS</text>
-      <text x="55" y="36" fill="#64748B" font-size="10" text-anchor="middle">Orders DB / ERP</text>
+    <!-- 4 Stages in Lineage -->
+    <g transform="translate(20, 36)">
+      <!-- Stage 1 -->
+      <rect width="180" height="50" rx="3" fill="#FFFFFF" stroke="#334155" stroke-width="1.2"/>
+      <text x="12" y="20" fill="#0F172A" font-size="11" font-weight="700">1. Merchant Order</text>
+      <text x="12" y="36" fill="#64748B" font-size="10">Order ID, Amount, Currency</text>
 
-      <rect x="120" y="0" width="110" height="45" rx="8" fill="#0F172A" stroke="#8B5CF6" stroke-width="1.2"/>
-      <text x="175" y="20" fill="#C4B5FD" font-size="11" font-weight="700" text-anchor="middle">Gateway MIS</text>
-      <text x="175" y="36" fill="#64748B" font-size="10" text-anchor="middle">Razorpay / Stripe</text>
+      <!-- Flow Arrow -->
+      <line x1="185" y1="25" x2="220" y2="25" stroke="#2563EB" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
 
-      <rect x="240" y="0" width="110" height="45" rx="8" fill="#0F172A" stroke="#10B981" stroke-width="1.2"/>
-      <text x="295" y="20" fill="#6EE7B7" font-size="11" font-weight="700" text-anchor="middle">Bank Statements</text>
-      <text x="295" y="36" fill="#64748B" font-size="10" text-anchor="middle">UTR Credits Feeds</text>
-    </g>
-  </g>
-
-  <!-- TIER 2: DETERMINISTIC INVARIANT MATH ENGINE -->
-  <g transform="translate(50, 235)" filter="url(#shadow)">
-    <rect width="1000" height="100" rx="12" fill="url(#cardGrad)" stroke="#4338CA" stroke-width="1.5"/>
-    
-    <g transform="translate(24, 20)">
-      <rect x="0" y="0" width="90" height="20" rx="4" fill="#4338CA" fill-opacity="0.4"/>
-      <text x="45" y="14" fill="#C7D2FE" font-size="10" font-weight="800" text-anchor="middle">TIER 2</text>
-      <text x="102" y="16" fill="#F8FAFC" font-size="15" font-weight="700">Deterministic Invariant Math Engine (Zero Math Hallucination)</text>
-      <text x="102" y="36" fill="#94A3B8" font-size="12">Strict decimal bounds: Financial arithmetic executed exclusively by deterministic rules, never by LLMs</text>
-    </g>
-
-    <!-- Formula Badges -->
-    <g transform="translate(24, 60)">
-      <rect x="0" y="0" width="290" height="26" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
-      <text x="145" y="17" fill="#E2E8F0" font-size="11" font-family="monospace" text-anchor="middle">Expected Fee = (Gross × Rate)/100</text>
-
-      <rect x="305" y="0" width="280" height="26" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
-      <text x="445" y="17" fill="#E2E8F0" font-size="11" font-family="monospace" text-anchor="middle">Expected GST = round(Fee × 0.18, 2)</text>
-
-      <rect x="600" y="0" width="350" height="26" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
-      <text x="775" y="17" fill="#E2E8F0" font-size="11" font-family="monospace" text-anchor="middle">Net Payout = Gross - (Fee + GST)</text>
-    </g>
-  </g>
-
-  <!-- TIER 3: FINANCIAL PROVENANCE DAG -->
-  <g transform="translate(50, 380)" filter="url(#shadow)">
-    <rect width="1000" height="100" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5"/>
-    
-    <g transform="translate(24, 18)">
-      <rect x="0" y="0" width="90" height="20" rx="4" fill="#059669" fill-opacity="0.3"/>
-      <text x="45" y="14" fill="#6EE7B7" font-size="10" font-weight="800" text-anchor="middle">TIER 3</text>
-      <text x="102" y="16" fill="#F8FAFC" font-size="15" font-weight="700">4-Tier Financial Provenance Topology (DAG)</text>
-      <text x="102" y="34" fill="#94A3B8" font-size="12">Graph-based money trail tracing capital across the complete transactional lifecycle</text>
-    </g>
-
-    <!-- 4 DAG Nodes -->
-    <g transform="translate(24, 48)">
-      <rect x="0" y="0" width="215" height="38" rx="8" fill="#1E293B" stroke="#3B82F6" stroke-width="1"/>
-      <text x="107" y="24" fill="#93C5FD" font-size="12" font-weight="700" text-anchor="middle">1. Merchant Order</text>
-
-      <text x="232" y="24" fill="#64748B" font-size="14" font-weight="800">→</text>
-
-      <rect x="250" y="0" width="215" height="38" rx="8" fill="#1E293B" stroke="#8B5CF6" stroke-width="1"/>
-      <text x="357" y="24" fill="#C4B5FD" font-size="12" font-weight="700" text-anchor="middle">2. Gateway Capture</text>
-
-      <text x="482" y="24" fill="#64748B" font-size="14" font-weight="800">→</text>
-
-      <rect x="500" y="0" width="215" height="38" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="1"/>
-      <text x="607" y="24" fill="#FCD34D" font-size="12" font-weight="700" text-anchor="middle">3. Settlement Batch</text>
-
-      <text x="732" y="24" fill="#64748B" font-size="14" font-weight="800">→</text>
-
-      <rect x="750" y="0" width="200" height="38" rx="8" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
-      <text x="850" y="24" fill="#6EE7B7" font-size="12" font-weight="700" text-anchor="middle">4. Bank UTR Credit</text>
-    </g>
-  </g>
-
-  <!-- TIER 4 LEFT: 5-ALGORITHM STATISTICAL ANOMALY RADAR -->
-  <g transform="translate(50, 535)" filter="url(#shadow)">
-    <rect width="470" height="250" rx="12" fill="url(#cardGrad)" stroke="#EF4444" stroke-opacity="0.5" stroke-width="1.5"/>
-    
-    <g transform="translate(20, 18)">
-      <rect x="0" y="0" width="65" height="20" rx="4" fill="#DC2626" fill-opacity="0.3"/>
-      <text x="32" y="14" fill="#FCA5A5" font-size="10" font-weight="800" text-anchor="middle">RADAR</text>
-      <text x="76" y="16" fill="#F8FAFC" font-size="14" font-weight="700">5-Algorithm Statistical Radar</text>
-      <text x="0" y="38" fill="#94A3B8" font-size="11">Detects subtle patterns, outliers &amp; contract leakage</text>
-    </g>
-
-    <g transform="translate(20, 70)" font-size="11" fill="#E2E8F0">
-      <g transform="translate(0, 0)">
-        <rect width="430" height="26" rx="6" fill="#1E293B"/>
-        <text x="12" y="17" font-weight="600" fill="#F87171">• Z-Score MDR Fee Drift</text>
-        <text x="330" y="17" fill="#94A3B8" font-family="monospace">Z &gt; 2.0 baseline</text>
+      <!-- Stage 2 -->
+      <g transform="translate(225, 0)">
+        <rect width="180" height="50" rx="3" fill="#FFFFFF" stroke="#334155" stroke-width="1.2"/>
+        <text x="12" y="20" fill="#0F172A" font-size="11" font-weight="700">2. Gateway Capture</text>
+        <text x="12" y="36" fill="#64748B" font-size="10">Payment ID, Fee, Tax, Net</text>
       </g>
-      <g transform="translate(0, 32)">
-        <rect width="430" height="26" rx="6" fill="#1E293B"/>
-        <text x="12" y="17" font-weight="600" fill="#FBBF24">• Settlement SLA Breach</text>
-        <text x="330" y="17" fill="#94A3B8" font-family="monospace">&gt; 48h float SLA</text>
+
+      <!-- Flow Arrow -->
+      <line x1="410" y1="25" x2="445" y2="25" stroke="#2563EB" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+      <!-- Stage 3 -->
+      <g transform="translate(450, 0)">
+        <rect width="180" height="50" rx="3" fill="#FFFFFF" stroke="#334155" stroke-width="1.2"/>
+        <text x="12" y="20" fill="#0F172A" font-size="11" font-weight="700">3. Settlement Batch</text>
+        <text x="12" y="36" fill="#64748B" font-size="10">Batch ID, Aggregator Payout</text>
       </g>
-      <g transform="translate(0, 64)">
-        <rect width="430" height="26" rx="6" fill="#1E293B"/>
-        <text x="12" y="17" font-weight="600" fill="#60A5FA">• IQR Amount Outlier</text>
-        <text x="330" y="17" fill="#94A3B8" font-family="monospace">1.5x IQR bounds</text>
-      </g>
-      <g transform="translate(0, 96)">
-        <rect width="430" height="26" rx="6" fill="#1E293B"/>
-        <text x="12" y="17" font-weight="600" fill="#C084FC">• Flash Sale Surge Ratio</text>
-        <text x="330" y="17" fill="#94A3B8" font-family="monospace">Err &gt; 5% spikes</text>
-      </g>
-      <g transform="translate(0, 128)">
-        <rect width="430" height="26" rx="6" fill="#1E293B"/>
-        <text x="12" y="17" font-weight="600" fill="#34D399">• Duplicate Gateway Charge</text>
-        <text x="330" y="17" fill="#94A3B8" font-family="monospace">Double capture</text>
+
+      <!-- Flow Arrow -->
+      <line x1="635" y1="25" x2="670" y2="25" stroke="#2563EB" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+      <!-- Stage 4 -->
+      <g transform="translate(675, 0)">
+        <rect width="165" height="50" rx="3" fill="#FFFFFF" stroke="#166534" stroke-width="1.2"/>
+        <text x="12" y="20" fill="#166534" font-size="11" font-weight="700">4. Bank UTR Credit</text>
+        <text x="12" y="36" fill="#64748B" font-size="10">Bank Ref UTR, Value Date</text>
       </g>
     </g>
   </g>
 
-  <!-- TIER 4 RIGHT: AUTONOMOUS FORENSIC AGENT -->
-  <g transform="translate(550, 535)" filter="url(#shadow)">
-    <rect width="500" height="145" rx="12" fill="url(#cardGrad)" stroke="#8B5CF6" stroke-width="1.5"/>
-    
-    <g transform="translate(20, 18)">
-      <rect x="0" y="0" width="65" height="20" rx="4" fill="#7C3AED" fill-opacity="0.3"/>
-      <text x="32" y="14" fill="#DDD6FE" font-size="10" font-weight="800" text-anchor="middle">AGENT</text>
-      <text x="76" y="16" fill="#F8FAFC" font-size="14" font-weight="700">Forensic Root-Cause Investigator</text>
-      <text x="0" y="38" fill="#94A3B8" font-size="11">Multi-step deterministic tool execution with Bayesian hypothesis scoring</text>
-    </g>
+  <!-- Branching Arrows from DAG -->
+  <path d="M 260 435 L 260 475" stroke="#0F172A" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M 700 435 L 700 475" stroke="#0F172A" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-    <!-- Agent Capabilities -->
-    <g transform="translate(20, 68)" font-size="11">
-      <rect x="0" y="0" width="220" height="28" rx="6" fill="#1E293B" stroke="#475569" stroke-width="1"/>
-      <text x="12" y="18" fill="#C4B5FD" font-weight="600">Deterministic Tool Trace</text>
+  <!-- 4. BOTTOM LEFT: STATISTICAL ANOMALY RADAR -->
+  <g transform="translate(40, 475)">
+    <rect width="420" height="150" rx="4" fill="#FEF2F2" stroke="#991B1B" stroke-width="1.5"/>
+    <rect x="0" y="0" width="240" height="22" rx="2" fill="#FEE2E2" stroke="#991B1B" stroke-width="1.5"/>
+    <text x="12" y="15" fill="#991B1B" font-size="11" font-weight="700">«radar» Statistical Anomaly Detector</text>
 
-      <rect x="230" y="0" width="230" height="28" rx="6" fill="#1E293B" stroke="#475569" stroke-width="1"/>
-      <text x="242" y="18" fill="#C4B5FD" font-weight="600">Bayesian Hypothesis Ranking</text>
-
-      <rect x="0" y="36" width="220" height="28" rx="6" fill="#1E293B" stroke="#475569" stroke-width="1"/>
-      <text x="12" y="54" fill="#C4B5FD" font-weight="600">Downstream Risk Scoring</text>
-
-      <rect x="230" y="36" width="230" height="28" rx="6" fill="#1E293B" stroke="#475569" stroke-width="1"/>
-      <text x="242" y="54" fill="#C4B5FD" font-weight="600">SHA-256 Audit Provenance</text>
+    <g transform="translate(16, 32)" font-size="11" fill="#1E293B">
+      <text x="0" y="16">• <tspan font-weight="600">Z-Score MDR Drift:</tspan> Flags subtle fee rate deviations</text>
+      <text x="0" y="36">• <tspan font-weight="600">SLA Breach Detector:</tspan> Flags settlement float > 48 hours</text>
+      <text x="0" y="56">• <tspan font-weight="600">IQR Amount Outlier:</tspan> Isolates abnormal gross/refunds</text>
+      <text x="0" y="76">• <tspan font-weight="600">Surge Ratio Monitor:</tspan> Detects flash sale error spikes</text>
+      <text x="0" y="96">• <tspan font-weight="600">Duplicate Charge Identifier:</tspan> Catches double gateway debits</text>
     </g>
   </g>
 
-  <!-- TIER 5: SOX-COMPLIANT HUMAN-IN-THE-LOOP APPROVAL HUB -->
-  <g transform="translate(550, 715)" filter="url(#shadow)">
-    <rect width="500" height="70" rx="10" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
-    
-    <g transform="translate(18, 14)">
-      <circle cx="10" cy="20" r="10" fill="#059669" fill-opacity="0.3"/>
-      <path d="M 6 20 L 9 23 L 15 17" fill="none" stroke="#34D399" stroke-width="2"/>
-      
-      <text x="28" y="16" fill="#FFFFFF" font-size="13" font-weight="700">SOX-Gated Human-in-the-Loop Approval Hub</text>
-      <text x="28" y="34" fill="#94A3B8" font-size="11">Staged Double-Entry JVs • Synthetic Webhook Replays • Dispute Dossiers</text>
+  <!-- 5. BOTTOM RIGHT: FORENSIC INVESTIGATOR AGENT -->
+  <g transform="translate(500, 475)">
+    <rect width="420" height="150" rx="4" fill="#F5F3FF" stroke="#5B21B6" stroke-width="1.5"/>
+    <rect x="0" y="0" width="260" height="22" rx="2" fill="#EDE9FE" stroke="#5B21B6" stroke-width="1.5"/>
+    <text x="12" y="15" fill="#5B21B6" font-size="11" font-weight="700">«agent» Forensic Root-Cause Investigator</text>
+
+    <g transform="translate(16, 32)" font-size="11" fill="#1E293B">
+      <text x="0" y="16">• <tspan font-weight="600">Deterministic Tool Trace:</tspan> Multi-step evidence retrieval</text>
+      <text x="0" y="36">• <tspan font-weight="600">Bayesian Hypothesis Ranking:</tspan> Probabilistic root cause</text>
+      <text x="0" y="56">• <tspan font-weight="600">Downstream Impact Score:</tspan> Evaluates operational cashflow</text>
+      <text x="0" y="76">• <tspan font-weight="600">Cryptographic Hash:</tspan> Generates SHA-256 audit seal</text>
+      <text x="0" y="96">• <tspan font-weight="600">Resolution Formulation:</tspan> Drafts proposed self-healing actions</text>
+    </g>
+  </g>
+
+  <!-- Arrow to Approval Hub -->
+  <line x1="710" y1="625" x2="710" y2="655" stroke="#166534" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 6. FINAL GATE: SOX APPROVAL HUB -->
+  <g transform="translate(40, 655)">
+    <rect width="880" height="85" rx="4" fill="#F0FDF4" stroke="#166534" stroke-width="1.5"/>
+    <rect x="0" y="0" width="290" height="22" rx="2" fill="#DCFCE7" stroke="#166534" stroke-width="1.5"/>
+    <text x="12" y="15" fill="#166534" font-size="11" font-weight="700">«governance» SOX Human-in-the-Loop Approval Hub</text>
+
+    <g transform="translate(20, 36)" font-size="11" fill="#14532D">
+      <text x="0" y="16">• <tspan font-weight="700">Double-Entry Journal Vouchers (JVs):</tspan> Auto-drafted balancing vouchers (e.g. JV-20260825-0101) for ERP posting</text>
+      <text x="0" y="34">• <tspan font-weight="700">Synthetic Webhook Replay:</tspan> 1-click state resync updating orphan orders from PENDING to SUCCESS</text>
+      <text x="560" y="24" fill="#166534" font-size="12" font-weight="700">Audit Status: SOX COMPLIANT ✓</text>
     </g>
   </g>
 </svg>
