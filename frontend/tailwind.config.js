@@ -7,23 +7,29 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#F8FAFC',
-        cardBg: '#FFFFFF',
-        sidebarBg: '#FFFFFF',
-        borderCol: '#E2E8F0',
-        navyDark: '#0B132B',
-        navyHover: '#1C2541',
-        accentBlue: '#2563EB',
-        lightBlueBox: '#EBF4FF',
-        lightBlueText: '#1E40AF',
-        lightGreenPill: '#E8F7EE',
-        lightGreenText: '#15803D',
-        textDark: '#0F172A',
-        textMuted: '#64748B'
+        brand: {
+          50: '#EEF2FF',
+          100: '#E0E7FF',
+          500: '#6366F1',
+          600: '#4F46E5',
+          700: '#4338CA',
+          900: '#1E1B4B',
+        },
+        slate: {
+          850: '#151E2E',
+          900: '#0F172A',
+          950: '#080D1A',
+        }
+      },
+      boxShadow: {
+        'xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.07), 0 1px 2px 0 rgba(0, 0, 0, 0.04)',
+        'card-hover': '0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)',
+        'drawer': '-4px 0 24px -2px rgba(0, 0, 0, 0.15)',
       },
       fontFamily: {
-        mono: ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace'],
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       }
     },
   },

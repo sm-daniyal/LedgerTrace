@@ -15,6 +15,10 @@ class ReconController:
         self.investigator = ForensicInvestigator(self.contracts)
         self.last_results = None
         self.last_lineage = None
+        try:
+            self.run_default_reconciliation()
+        except Exception:
+            pass
 
     def generate_preset_data(self, preset: str = "default") -> Dict[str, Any]:
         if preset == "clean":

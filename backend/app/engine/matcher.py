@@ -1,6 +1,7 @@
 import uuid
 from typing import List, Dict, Any
 from .calculators import verify_mdr_invariants
+from .anomaly_detector import AnomalyDetector
 
 class ReconciliationMatcher:
     # Deterministic 3-way reconciliation engine.
@@ -9,6 +10,7 @@ class ReconciliationMatcher:
         self.contracts = contracts
         self.rates = contracts.get("rates", {})
         self.gst_rate = contracts.get("gst_rate", 0.18)
+        self.anomaly_detector = AnomalyDetector(contracts)
 
     def reconcile(self, orders: List[Dict[str, Any]], gateway_txns: List[Dict[str, Any]], bank_records: List[Dict[str, Any]]) -> Dict[str, Any]:
         order_map = {o["order_id"]: o for o in orders if o.get("order_id")}
@@ -150,6 +152,9 @@ class ReconciliationMatcher:
         
         reconciliation_rate = round((reconciled_count / len(orders) * 100) if orders else 0.0, 1)
 
+        # Run statistical anomaly detection
+        anomaly_alerts = self.anomaly_detector.detect_all(orders, gateway_txns, bank_records)
+
         return {
             "metrics": {
                 "total_merchant_orders": len(orders),
@@ -161,8 +166,10 @@ class ReconciliationMatcher:
                 "reconciliation_rate": reconciliation_rate,
                 "discrepancy_count": discrepancy_count,
                 "total_leakage_amount": total_leakage,
-                "pending_settlement_amount": pending_settlement
+                "pending_settlement_amount": pending_settlement,
+                "anomaly_count": len(anomaly_alerts)
             },
             "discrepancies": discrepancies,
-            "reconciled_orders": reconciled_orders
+            "reconciled_orders": reconciled_orders,
+            "anomaly_alerts": [a.to_dict() for a in anomaly_alerts]
         }

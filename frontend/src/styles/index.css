@@ -2,14 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .pro-card {
+    @apply bg-white border border-slate-200/90 rounded-xl shadow-xs transition-all duration-200;
+  }
+  .pro-card-hover {
+    @apply hover:border-slate-300 hover:shadow-card transition-all duration-200;
+  }
+  .pro-btn {
+    @apply inline-flex items-center justify-center font-semibold text-xs rounded-lg px-3.5 py-2 transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .pro-btn-primary {
+    @apply bg-slate-900 hover:bg-slate-800 text-white shadow-xs active:scale-[0.99];
+  }
+  .pro-btn-secondary {
+    @apply bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-xs active:scale-[0.99];
+  }
+  .pro-btn-indigo {
+    @apply bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs active:scale-[0.99];
+  }
+  .pro-badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold tracking-tight;
+  }
+}
+
 body {
   margin: 0;
   background-color: #F8FAFC;
   color: #0F172A;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar */
+/* Custom crisp scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

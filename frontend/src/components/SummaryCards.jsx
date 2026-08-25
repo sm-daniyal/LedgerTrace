@@ -1,97 +1,168 @@
-import React, { useState } from 'react';
-import { RefreshCw, Play, CheckCircle2, ChevronDown } from 'lucide-react';
+import React from 'react';
+import { DollarSign, Layers, Activity, Clock, Sliders, ArrowUpRight, TrendingUp, AlertTriangle, ShieldCheck, RefreshCw, CheckCircle2, RotateCcw } from 'lucide-react';
 
-export const SummaryCards = ({ metrics, onRunRecon, isRunning, selectedPreset, onSelectPreset, scanStage, lastUpdated }) => {
+export const SummaryCards = ({ metrics, onRunRecon, isRunning, selectedPreset, onSelectPreset, onResetStandby, scanStage, lastUpdated }) => {
   if (!metrics) return null;
+
+  const presets = [
+    { id: 'default', label: 'Standard Batch', sub: '11 Orders, 4 Edge-Cases' },
+    { id: 'flash_sale', label: 'Flash Sale Surge', sub: 'High Volume, Heavy Leakage' },
+    { id: 'clean', label: 'Month-End Audit', sub: '100% Balanced Clean' }
+  ];
+
+  const isStandby = !selectedPreset || metrics.total_merchant_orders === 0;
 
   return (
     <div className="space-y-4 mb-6">
-      {/* Section 01 Header */}
-      <div className="flex items-center justify-between pb-2 border-b-2 border-textDark">
-        <div className="text-xs font-mono font-bold tracking-wider text-textDark uppercase">
-          01 INPUT
-        </div>
-        <div className="text-xs font-mono font-bold tracking-wider text-textDark uppercase">
-          FINANCIAL FEEDS &amp; RECONCILIATION SETUP
-        </div>
-      </div>
-
-      {/* Preset Selector & Quick Controls */}
-      <div className="bg-white border border-borderCol rounded p-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-        <div className="flex items-center space-x-2 font-mono text-xs">
-          <span className="text-textMuted uppercase font-semibold">SELECT SCENARIO PRESET:</span>
-          <select
-            value={selectedPreset}
-            onChange={(e) => onSelectPreset(e.target.value)}
-            disabled={isRunning}
-            className="bg-slate-50 border border-borderCol text-textDark font-mono font-semibold py-1 px-2.5 rounded focus:outline-none focus:border-navyDark text-xs cursor-pointer"
-          >
-            <option value="default">Standard Batch (11 Orders, 4 Anomalies)</option>
-            <option value="flash_sale">Flash Sale Surge (6 High-Value, Heavy Leakage)</option>
-            <option value="clean">Month-End Audit (100% Matched, 0 Anomalies)</option>
-          </select>
-        </div>
-
-        {lastUpdated && (
-          <div className="text-[11px] font-mono text-textMuted flex items-center space-x-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-600"></span>
-            <span>Last Reconciled: <strong className="text-textDark">{lastUpdated}</strong></span>
+      {/* Simulation Scenario Preset Selector */}
+      <div className="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-xs flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center space-x-2.5">
+          <div className="w-7 h-7 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
+            <Sliders className="w-3.5 h-3.5" />
           </div>
-        )}
+          <div>
+            <div className="text-xs font-bold text-slate-800 uppercase tracking-tight font-sans flex items-center gap-2">
+              <span>Simulation Scenario Preset</span>
+              {isStandby && (
+                <span className="px-2 py-0.2 rounded bg-slate-100 text-slate-600 text-[10px] font-mono font-medium">
+                  AWAITING INGESTION
+                </span>
+              )}
+            </div>
+            <div className="text-[11px] text-slate-500 font-sans">
+              Select transaction dataset to test 3-way reconciliation &amp; forensic agents
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-1.5 bg-slate-100/80 p-1 rounded-lg border border-slate-200/60">
+          {presets.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => onSelectPreset(p.id)}
+              disabled={isRunning}
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                selectedPreset === p.id
+                  ? 'bg-white text-slate-900 shadow-xs border border-slate-200/80'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span>{p.label}</span>
+            </button>
+          ))}
+
+          {/* Reset Button */}
+          {!isStandby && onResetStandby && (
+            <button
+              onClick={onResetStandby}
+              title="Reset dashboard to clean initial standby state"
+              className="px-2 py-1.5 rounded-md text-xs font-medium text-slate-500 hover:text-slate-800 hover:bg-white/60 transition-colors flex items-center gap-1 cursor-pointer"
+            >
+              <RotateCcw className="w-3 h-3" />
+              <span className="text-[11px]">Clear</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Dynamic Scan Progress Notification */}
       {isRunning && (
-        <div className="bg-navyDark text-white p-3.5 rounded font-mono text-xs space-y-1.5 animate-pulse">
+        <div className="bg-slate-900 text-white p-3.5 rounded-xl border border-slate-800 shadow-md font-mono text-xs space-y-2">
           <div className="flex items-center justify-between font-semibold">
-            <span className="flex items-center space-x-2">
-              <RefreshCw className="w-3.5 h-3.5 animate-spin text-blue-400" />
+            <span className="flex items-center space-x-2 text-indigo-300 font-sans">
+              <RefreshCw className="w-3.5 h-3.5 animate-spin text-indigo-400" />
               <span>{scanStage || 'Executing 3-way reconciliation pipeline...'}</span>
             </span>
-            <span className="text-blue-300">PROCESSING</span>
+            <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 text-[10px] font-mono border border-indigo-500/30">
+              PROCESSING
+            </span>
           </div>
-          <div className="w-full bg-navyHover h-1.5 rounded overflow-hidden">
-            <div className="bg-blue-400 h-full w-3/4 animate-pulse"></div>
+          <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+            <div className="bg-indigo-500 h-full w-4/5 animate-pulse rounded-full" />
           </div>
         </div>
       )}
 
-      {/* KPI Summary Blocks */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 font-mono">
-        <div className="bg-white border border-borderCol p-3.5 rounded transition-all hover:border-slate-400">
-          <div className="text-[10px] text-textMuted uppercase">RECONCILIATION RATE</div>
-          <div className="text-2xl font-bold text-textDark mt-1 tracking-tight">{metrics.reconciliation_rate}%</div>
-          <div className="text-[10px] text-textMuted mt-0.5">{metrics.reconciled_count} of {metrics.total_merchant_orders} orders matched</div>
+      {/* 4 Clean Pro-Enterprise Metric Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        {/* Card 1: Reconciled Volume */}
+        <div className="bg-white border border-slate-200/90 p-4 rounded-xl shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-500 mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 font-sans">Reconciled Gross</span>
+            <span className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-100">
+              <DollarSign className="w-4 h-4" />
+            </span>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-slate-900 tracking-tight font-mono">
+              INR {Number(metrics.reconciled_amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+            </div>
+            <div className="text-xs text-slate-500 mt-1 font-sans flex items-center justify-between">
+              <span>Total Volume:</span>
+              <span className="font-mono font-medium text-slate-700">INR {Number(metrics.total_merchant_amount || 0).toLocaleString('en-IN')}</span>
+            </div>
+          </div>
         </div>
 
-        <div className="bg-white border border-borderCol p-3.5 rounded transition-all hover:border-slate-400">
-          <div className="text-[10px] text-textMuted uppercase">RECONCILED VOLUME</div>
-          <div className="text-2xl font-bold text-textDark mt-1 tracking-tight">INR {metrics.reconciled_amount.toLocaleString()}</div>
-          <div className="text-[10px] text-textMuted mt-0.5">Total Gross: INR {metrics.total_merchant_amount.toLocaleString()}</div>
+        {/* Card 2: Match Rate */}
+        <div className="bg-white border border-slate-200/90 p-4 rounded-xl shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-500 mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 font-sans">Match Rate</span>
+            <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100">
+              <CheckCircle2 className="w-4 h-4" />
+            </span>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-emerald-700 tracking-tight font-mono">
+              {metrics.reconciliation_rate}%
+            </div>
+            <div className="text-xs text-slate-500 mt-1 font-sans flex items-center justify-between">
+              <span>Matched Records:</span>
+              <span className="font-mono font-medium text-slate-700">{metrics.reconciled_count} / {metrics.total_merchant_orders}</span>
+            </div>
+          </div>
         </div>
 
-        <div className="bg-white border border-borderCol p-3.5 rounded transition-all hover:border-slate-400">
-          <div className="text-[10px] text-textMuted uppercase">DETECTED FEE LEAKAGE</div>
-          <div className="text-2xl font-bold text-red-600 mt-1 tracking-tight">INR {metrics.total_leakage_amount.toLocaleString()}</div>
-          <div className="text-[10px] text-textMuted mt-0.5">MDR &amp; GST overcharges flagged</div>
+        {/* Card 3: Fee Leakage */}
+        <div className="bg-white border border-slate-200/90 p-4 rounded-xl shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-500 mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-rose-700 font-sans">Fee Leakage</span>
+            <span className="p-1.5 rounded-lg bg-rose-50 text-rose-600 border border-rose-100">
+              <Activity className="w-4 h-4" />
+            </span>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-rose-600 tracking-tight font-mono">
+              INR {Number(metrics.total_leakage_amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+            </div>
+            <div className="text-xs text-slate-500 mt-1 font-sans flex items-center justify-between">
+              <span>MDR &amp; Tax Overcharge:</span>
+              <span className="font-mono font-semibold text-rose-600">{metrics.discrepancy_count} Flagged</span>
+            </div>
+          </div>
         </div>
 
-        <div className="bg-white border border-borderCol p-3.5 rounded transition-all hover:border-slate-400">
-          <div className="text-[10px] text-textMuted uppercase">PENDING SETTLEMENTS</div>
-          <div className="text-2xl font-bold text-amber-600 mt-1 tracking-tight">INR {metrics.pending_settlement_amount.toLocaleString()}</div>
-          <div className="text-[10px] text-textMuted mt-0.5">SLA Breached (&gt;48h)</div>
+        {/* Card 4: Pending SLA */}
+        <div className="bg-white border border-slate-200/90 p-4 rounded-xl shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-500 mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700 font-sans">Pending SLA</span>
+            <span className="p-1.5 rounded-lg bg-amber-50 text-amber-600 border border-amber-100">
+              <Clock className="w-4 h-4" />
+            </span>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-amber-600 tracking-tight font-mono">
+              INR {Number(metrics.pending_settlement_amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+            </div>
+            <div className="text-xs text-slate-500 mt-1 font-sans flex items-center justify-between">
+              <span>Floating Beyond 48h:</span>
+              <span className="font-mono font-semibold text-amber-600">T+2 Breached</span>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Main Action Banner */}
-      <button
-        onClick={onRunRecon}
-        disabled={isRunning}
-        className="w-full bg-navyDark hover:bg-navyHover active:scale-[0.99] text-white font-mono font-bold text-xs tracking-wider uppercase py-3 rounded flex items-center justify-center space-x-2 transition-all shadow-sm cursor-pointer disabled:opacity-50"
-      >
-        <RefreshCw className={`w-3.5 h-3.5 ${isRunning ? 'animate-spin' : ''}`} />
-        <span>{isRunning ? 'EXECUTING FORENSIC RECONCILIATION...' : 'RUN RECONCILIATION REPORT'}</span>
-      </button>
     </div>
   );
 };
+
+export default SummaryCards;

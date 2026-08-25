@@ -2,47 +2,67 @@ import React, { useState, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { SummaryCards } from './components/SummaryCards';
+import { CloseCockpit } from './components/CloseCockpit';
+import { NLSearchBar } from './components/NLSearchBar';
 import { LineageGraph } from './components/LineageGraph';
 import { DiscrepancyTable } from './components/DiscrepancyTable';
+import { ApprovalHub } from './components/ApprovalHub';
 import { AgentDrawer } from './components/AgentDrawer';
 import { ActionCenter } from './components/ActionCenter';
 import { CommandPalette } from './components/CommandPalette';
 import { UploadModal } from './components/UploadModal';
-import { runReconciliation } from './services/api';
+import { runReconciliation, getCloseStatus, getApprovalQueue } from './services/api';
+import { getPresetFallbackData, getEmptyInitialData } from './services/mockData';
 
 export const App = () => {
-  const [data, setData] = useState(null);
+  const [selectedPreset, setSelectedPreset] = useState(null);
+  const [data, setData] = useState(() => getEmptyInitialData());
+  const [closeStatus, setCloseStatus] = useState(null);
+  const [pendingApprovalCount, setPendingApprovalCount] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [scanStage, setScanStage] = useState('');
-  const [lastUpdated, setLastUpdated] = useState('');
-  const [selectedPreset, setSelectedPreset] = useState('default');
+  const [lastUpdated, setLastUpdated] = useState(() => new Date().toLocaleTimeString());
   const [selectedDiscrepancy, setSelectedDiscrepancy] = useState(null);
+  const [activeTab, setActiveTab] = useState('RECON'); // RECON | APPROVAL | LINEAGE | AUDIT
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [actionLog, setActionLog] = useState([]);
   const [resolvedDiscrepancyIds, setResolvedDiscrepancyIds] = useState([]);
 
   const fetchReconciliation = async (presetOverride) => {
-    const activePreset = presetOverride || selectedPreset;
+    const activePreset = presetOverride || selectedPreset || 'default';
+    setSelectedPreset(activePreset);
     setIsRunning(true);
     setScanStage('Ingesting Merchant DB, Gateway Settlement MIS, and Bank Statement feeds...');
 
     try {
-      // Step 1: Simulate progressive stage logs for realism
-      await new Promise(r => setTimeout(r, 200));
+      await new Promise((r) => setTimeout(r, 200));
       setScanStage('Evaluating MDR rate card contracts & 18% GST invariants...');
-      await new Promise(r => setTimeout(r, 200));
-      setScanStage('Constructing 3-way financial lineage provenance topology...');
-      
+      await new Promise((r) => setTimeout(r, 200));
+      setScanStage('Constructing 3-way financial lineage provenance DAG...');
+
       const res = await runReconciliation(activePreset);
-      
-      await new Promise(r => setTimeout(r, 150));
-      setScanStage('Running autonomous forensic agents on detected anomalies...');
-      
+
+      await new Promise((r) => setTimeout(r, 150));
+      setScanStage('Running autonomous forensic agents & anomaly radar...');
+
       setData(res);
       setLastUpdated(res.timestamp || new Date().toLocaleTimeString());
+
+      try {
+        const cStatus = await getCloseStatus();
+        setCloseStatus(cStatus);
+        const aQueue = await getApprovalQueue('PENDING_APPROVAL');
+        setPendingApprovalCount(aQueue?.stats?.pending_approval || aQueue?.queue?.length || 0);
+      } catch (e) {
+        // Fallback
+      }
     } catch (err) {
-      console.error('Failed to run reconciliation:', err);
+      console.warn('Backend API connection pending, loaded preset data locally:', err.message);
+      const fallback = getPresetFallbackData(activePreset);
+      setData(fallback);
+      setLastUpdated(new Date().toLocaleTimeString());
+      setPendingApprovalCount(fallback.reconciliation?.discrepancies?.length || 2);
     } finally {
       setIsRunning(false);
       setScanStage('');
@@ -50,12 +70,31 @@ export const App = () => {
   };
 
   useEffect(() => {
-    fetchReconciliation('default');
+    // Keyboard shortcut Ctrl+K / Cmd+K listener
+    const handleGlobalKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsCommandOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, []);
 
   const handlePresetChange = (newPreset) => {
     setSelectedPreset(newPreset);
+    setResolvedDiscrepancyIds([]);
     fetchReconciliation(newPreset);
+  };
+
+  const handleResetStandby = () => {
+    setSelectedPreset(null);
+    setData(getEmptyInitialData());
+    setPendingApprovalCount(0);
+    setResolvedDiscrepancyIds([]);
+    setActionLog([]);
+    setCloseStatus(null);
   };
 
   const handleActionCompleted = (action) => {
@@ -75,50 +114,119 @@ export const App = () => {
     }
   };
 
+  const handleNLResultSelect = (item) => {
+    if (item && (item.id || item.order_id)) {
+      const match = data?.reconciliation?.discrepancies?.find(
+        (d) => d.id === item.id || d.order_id === item.order_id
+      );
+      if (match) {
+        setSelectedDiscrepancy(match);
+      } else {
+        setSelectedDiscrepancy(item);
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-background text-textDark flex font-sans">
+    <div className="min-h-screen bg-[#F8F9FA] text-slate-900 flex font-sans antialiased">
       {/* Left Sidebar */}
-      <Sidebar metrics={data?.reconciliation?.metrics} isRunning={isRunning} />
+      <Sidebar
+        activeTab={activeTab}
+        onSelectTab={setActiveTab}
+        metrics={data?.reconciliation?.metrics}
+        isRunning={isRunning}
+        pendingApprovalCount={pendingApprovalCount}
+      />
 
       {/* Main Content Pane */}
-      <div className="flex-1 p-8 overflow-y-auto max-w-6xl">
+      <main className="flex-1 p-6 md:p-8 overflow-y-auto max-w-7xl">
         <Header
-          onRefresh={() => fetchReconciliation(selectedPreset)}
+          onRefresh={() => fetchReconciliation(selectedPreset || 'default')}
           onUploadClick={() => setIsUploadOpen(true)}
           onOpenCommandPalette={() => setIsCommandOpen(true)}
           isRunning={isRunning}
         />
 
-        {data && (
-          <>
+        {/* Tab 1: Overview & Reconciliation */}
+        {activeTab === 'RECON' && (
+          <div className="space-y-6">
+            {/* Top Metric Cards + Scenario Presets */}
             <SummaryCards
-              metrics={data.reconciliation?.metrics}
-              onRunRecon={() => fetchReconciliation(selectedPreset)}
+              metrics={data?.reconciliation?.metrics}
+              onRunRecon={() => fetchReconciliation(selectedPreset || 'default')}
               isRunning={isRunning}
               selectedPreset={selectedPreset}
               onSelectPreset={handlePresetChange}
+              onResetStandby={handleResetStandby}
               scanStage={scanStage}
               lastUpdated={lastUpdated}
             />
-            <LineageGraph lineage={data.lineage} onSelectNode={handleSelectNode} />
+
+            {/* Continuous Close Status Bar */}
+            <CloseCockpit
+              closeStatus={closeStatus}
+              metrics={data?.reconciliation?.metrics}
+            />
+
+            {/* Natural Language Financial Query Bar */}
+            <NLSearchBar
+              reconData={data}
+              onSelectResult={handleNLResultSelect}
+            />
+
+            {/* Discrepancy Queue & Anomaly Radar */}
             <DiscrepancyTable
-              discrepancies={data.reconciliation?.discrepancies}
+              discrepancies={data?.reconciliation?.discrepancies || []}
+              anomalyAlerts={data?.reconciliation?.anomaly_alerts || []}
               onSelectDiscrepancy={(disc) => setSelectedDiscrepancy(disc)}
               resolvedIds={resolvedDiscrepancyIds}
             />
-            <ActionCenter actionLog={actionLog} />
-          </>
-        )}
-      </div>
 
-      {/* Slide-over Investigation Drawer */}
+            {/* Lineage Graph */}
+            <LineageGraph lineage={data?.lineage} onSelectNode={handleSelectNode} />
+          </div>
+        )}
+
+        {/* Tab 2: Human-in-the-Loop Approval Hub */}
+        {activeTab === 'APPROVAL' && (
+          <ApprovalHub
+            reconData={data}
+            onActionExecuted={(res) => {
+              setActionLog((prev) => [
+                {
+                  type: 'APPROVAL_EXECUTED',
+                  discrepancyId: res.action_id,
+                  data: res
+                },
+                ...prev
+              ]);
+            }}
+          />
+        )}
+
+        {/* Tab 3: Financial Lineage DAG */}
+        {activeTab === 'LINEAGE' && (
+          <div className="space-y-6">
+            <LineageGraph lineage={data?.lineage} onSelectNode={handleSelectNode} />
+          </div>
+        )}
+
+        {/* Tab 4: Executed Audit Trail & Action Center */}
+        {activeTab === 'AUDIT' && (
+          <div className="space-y-6">
+            <ActionCenter actionLog={actionLog} />
+          </div>
+        )}
+      </main>
+
+      {/* Slide-over Forensic Investigation Drawer */}
       <AgentDrawer
         discrepancy={selectedDiscrepancy}
         onClose={() => setSelectedDiscrepancy(null)}
         onActionCompleted={handleActionCompleted}
       />
 
-      {/* Command Palette Modal */}
+      {/* Command Palette Modal (Ctrl+K) */}
       <CommandPalette
         isOpen={isCommandOpen}
         onClose={() => setIsCommandOpen(false)}

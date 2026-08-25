@@ -1,4 +1,4 @@
-﻿# Python Virtual Environments
+# Python Virtual Environments
 backend/venv/
 venv/
 ENV/
@@ -61,3 +61,4 @@ docs/*
 DEMO_SCRIPT.md
 *architecture*.md
 ARCHITECTURE.md
+memory.md

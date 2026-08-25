@@ -19,6 +19,37 @@ export const getLineageGraph = async () => {
   return response.data;
 };
 
+export const getCloseStatus = async () => {
+  const response = await apiClient.get('/close-status');
+  return response.data;
+};
+
+export const getApprovalQueue = async (statusFilter = null) => {
+  const url = statusFilter ? `/approval-queue?status=${statusFilter}` : '/approval-queue';
+  const response = await apiClient.get(url);
+  return response.data;
+};
+
+export const approveAction = async (actionId) => {
+  const response = await apiClient.post(`/approval/${actionId}/approve`);
+  return response.data;
+};
+
+export const rejectAction = async (actionId, reason) => {
+  const response = await apiClient.post(`/approval/${actionId}/reject`, { reason });
+  return response.data;
+};
+
+export const getAuditLog = async () => {
+  const response = await apiClient.get('/audit-log');
+  return response.data;
+};
+
+export const queryNL = async (question) => {
+  const response = await apiClient.post('/query', { question });
+  return response.data;
+};
+
 export const resolveWebhook = async (orderId, gatewayPaymentId) => {
   const response = await apiClient.post('/action/resolve-webhook', {
     order_id: orderId,

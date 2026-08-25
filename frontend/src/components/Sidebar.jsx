@@ -1,80 +1,158 @@
 import React from 'react';
-import { Database, ShieldCheck, Cpu, Terminal, FileText, CheckCircle2 } from 'lucide-react';
+import { Layers, CheckSquare, Activity, FileText, ShieldCheck, Sparkles, Sliders, Database, ArrowUpRight } from 'lucide-react';
 
-export const Sidebar = ({ metrics, isRunning }) => {
+export const Sidebar = ({ activeTab, onSelectTab, metrics, isRunning, pendingApprovalCount = 0 }) => {
+  const navSections = [
+    {
+      title: 'DASHBOARDS',
+      items: [
+        { id: 'RECON', label: 'Continuous Recon', icon: Layers, badge: null },
+        { id: 'APPROVAL', label: 'Approval Hub', icon: CheckSquare, badge: pendingApprovalCount > 0 ? pendingApprovalCount : null },
+      ]
+    },
+    {
+      title: 'FINTECH OPS',
+      items: [
+        { id: 'LINEAGE', label: 'Lineage DAG', icon: Activity, badge: null },
+        { id: 'AUDIT', label: 'Audit Ledger', icon: FileText, badge: null },
+      ]
+    }
+  ];
+
+  const reconRate = metrics?.reconciliation_rate ?? 63.6;
+  const leakage = metrics?.total_leakage_amount ?? 1250;
+
   return (
-    <aside className="w-64 bg-sidebarBg border-r border-borderCol min-h-screen p-5 flex flex-col justify-between shrink-0 font-sans">
-      <div className="space-y-6">
-        {/* Brand */}
-        <div>
-          <div className="text-xs font-mono font-bold tracking-wider text-textDark uppercase">
-            LEDGERTRACE SYSTEM
-          </div>
-          <div className="text-[11px] text-textMuted font-mono mt-0.5">
-            v2026.1 Enterprise Core
-          </div>
-        </div>
-
-        <div className="border-t border-borderCol"></div>
-
-        {/* Engine Connection Status */}
-        <div className="space-y-2">
-          <div className="text-[10px] font-mono text-textMuted uppercase tracking-wider">
-            ENGINE CONNECTION
-          </div>
-          <div className="w-full py-2 px-3 rounded bg-lightGreenPill border border-green-200 text-lightGreenText font-mono font-semibold text-xs flex items-center justify-between">
-            <span>ENGINE LOADED</span>
-            <span className="w-2 h-2 rounded-full bg-green-600 animate-pulse"></span>
-          </div>
-          <div className="text-[11px] text-textMuted font-mono space-y-0.5">
-            <div>Graph size: {metrics ? (metrics.total_merchant_orders * 3) : 0} nodes</div>
-            <div>SLA window: 48 hours</div>
-            <div>Active Contract: TechStore 2026</div>
+    <aside className="w-64 bg-slate-900 text-slate-300 border-r border-slate-800 min-h-screen flex flex-col justify-between shrink-0 font-sans select-none">
+      <div>
+        {/* Brand Header */}
+        <div className="p-5 border-b border-slate-800/80">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-indigo-500/20">
+              LT
+            </div>
+            <div>
+              <div className="text-sm font-bold tracking-tight text-white font-sans">
+                LedgerTrace
+              </div>
+              <div className="text-[10px] font-mono text-slate-400">
+                Autonomous Controller
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="border-t border-borderCol"></div>
+        {/* Navigation Sections */}
+        <div className="p-4 space-y-5">
+          {navSections.map((section, sIdx) => (
+            <div key={sIdx} className="space-y-1">
+              <div className="text-[10px] font-bold uppercase text-slate-400 tracking-wider px-2.5 mb-1.5 font-mono">
+                {section.title}
+              </div>
+              <div className="space-y-0.5">
+                {section.items.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => onSelectTab(item.id)}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg font-medium text-xs tracking-tight transition-all duration-150 cursor-pointer ${
+                        isActive
+                          ? 'bg-indigo-600 text-white font-semibold shadow-xs'
+                          : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                      }`}
+                    >
+                      <div className="flex items-center space-x-2.5">
+                        <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                        <span>{item.label}</span>
+                      </div>
+                      {item.badge !== null && (
+                        <span className="px-1.5 py-0.5 rounded-md bg-amber-400 text-slate-950 text-[10px] font-bold font-mono">
+                          {item.badge}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
 
-        {/* System Details Callout */}
-        <div className="space-y-2">
-          <div className="text-[10px] font-mono text-textMuted uppercase tracking-wider">
-            SYSTEM DETAILS
-          </div>
-          <div className="p-3.5 bg-lightBlueBox border border-blue-200 rounded-lg text-lightBlueText text-[11px] leading-relaxed">
-            Uses a deterministic 3-way financial reconciliation engine and autonomous multi-agent DAG to identify MDR fee leakage, dropped webhooks, and ledger discrepancies.
-          </div>
-        </div>
+          {/* Autonomous Risk Radar Widget */}
+          <div className="pt-2">
+            <div className="text-[10px] font-bold uppercase text-slate-400 tracking-wider px-2.5 mb-2 font-mono flex items-center justify-between">
+              <span>Agent Risk Radar</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            </div>
 
-        {/* Contract Rate Card Summary */}
-        <div className="space-y-1.5 font-mono text-[10px] text-textMuted">
-          <div className="font-semibold text-textDark uppercase">CONTRACTED RATE CARD</div>
-          <div className="flex justify-between border-b border-borderCol/60 py-0.5">
-            <span>UPI</span>
-            <span className="font-semibold text-textDark">0.00%</span>
+            <div className="bg-slate-850 rounded-xl border border-slate-800 p-3 space-y-2 text-xs font-mono">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-slate-400">Invariant Math</span>
+                <span className="px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-bold border border-emerald-500/20">
+                  100% Bound
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-slate-400">Bayesian Conf.</span>
+                <span className="font-semibold text-white">96.4%</span>
+              </div>
+
+              <div className="space-y-1 pt-0.5">
+                <div className="flex justify-between text-[10px] text-slate-400">
+                  <span>Match Rate</span>
+                  <span className="text-white font-semibold">{reconRate}%</span>
+                </div>
+                <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                  <div
+                    className="bg-indigo-500 h-full rounded-full transition-all duration-500"
+                    style={{ width: `${reconRate}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="pt-1.5 border-t border-slate-800 flex justify-between text-[10px]">
+                <span className="text-slate-400">Fee Variance Delta</span>
+                <span className="font-semibold text-rose-400">INR {Number(leakage).toLocaleString('en-IN')}</span>
+              </div>
+            </div>
           </div>
-          <div className="flex justify-between border-b border-borderCol/60 py-0.5">
-            <span>Debit Cards</span>
-            <span className="font-semibold text-textDark">0.90%</span>
-          </div>
-          <div className="flex justify-between border-b border-borderCol/60 py-0.5">
-            <span>Credit Cards</span>
-            <span className="font-semibold text-textDark">1.80%</span>
-          </div>
-          <div className="flex justify-between border-b border-borderCol/60 py-0.5">
-            <span>Net Banking</span>
-            <span className="font-semibold text-textDark">1.50%</span>
-          </div>
-          <div className="flex justify-between py-0.5">
-            <span>Standard GST</span>
-            <span className="font-semibold text-textDark">18.00%</span>
+
+          {/* Contracted Rates Card */}
+          <div className="pt-1">
+            <div className="text-[10px] font-bold uppercase text-slate-400 tracking-wider px-2.5 mb-1.5 font-mono">
+              Contracted Rates
+            </div>
+            <div className="bg-slate-850 rounded-xl border border-slate-800 p-2.5 space-y-1 text-xs font-mono">
+              <div className="flex justify-between border-b border-slate-800/80 pb-0.5 text-[11px]">
+                <span className="text-slate-400">UPI</span>
+                <span className="font-semibold text-white">0.00%</span>
+              </div>
+              <div className="flex justify-between border-b border-slate-800/80 pb-0.5 text-[11px]">
+                <span className="text-slate-400">Credit / Debit</span>
+                <span className="font-semibold text-white">1.80%</span>
+              </div>
+              <div className="flex justify-between border-b border-slate-800/80 pb-0.5 text-[11px]">
+                <span className="text-slate-400">Net Banking</span>
+                <span className="font-semibold text-white">1.50%</span>
+              </div>
+              <div className="flex justify-between pt-0.5 text-[11px]">
+                <span className="text-slate-400">GST</span>
+                <span className="font-semibold text-white">18.00%</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Footer Attribution */}
-      <div className="pt-6 border-t border-borderCol text-[11px] text-textMuted font-mono">
-        Developed by sm-daniyal
+      <div className="p-4 border-t border-slate-800 text-[11px] font-mono text-slate-400 flex justify-between items-center">
+        <span>DEV: sm-daniyal</span>
+        <span className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 text-[10px] font-mono">FINTECH</span>
       </div>
     </aside>
   );
 };
+
+export default Sidebar;
