@@ -6,6 +6,7 @@ import { CloseCockpit } from './components/CloseCockpit';
 import { NLSearchBar } from './components/NLSearchBar';
 import { LineageGraph } from './components/LineageGraph';
 import { DiscrepancyTable } from './components/DiscrepancyTable';
+import { AgentFleet } from './components/AgentFleet';
 import { ApprovalHub } from './components/ApprovalHub';
 import { AgentDrawer } from './components/AgentDrawer';
 import { ActionCenter } from './components/ActionCenter';
@@ -187,7 +188,16 @@ export const App = () => {
           </div>
         )}
 
-        {/* Tab 2: Human-in-the-Loop Approval Hub */}
+        {/* Tab 2: Autonomous Agent Fleet */}
+        {activeTab === 'FLEET' && (
+          <AgentFleet
+            reconData={data}
+            onSelectDiscrepancy={(disc) => setSelectedDiscrepancy(disc)}
+            onNavigateToApproval={() => setActiveTab('APPROVAL')}
+          />
+        )}
+
+        {/* Tab 3: Human-in-the-Loop Approval Hub */}
         {activeTab === 'APPROVAL' && (
           <ApprovalHub
             reconData={data}

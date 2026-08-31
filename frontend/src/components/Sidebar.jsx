@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layers, CheckSquare, Activity, FileText, ShieldCheck, Sparkles, Sliders, Database, ArrowUpRight } from 'lucide-react';
+import { Layers, CheckSquare, Activity, FileText, ShieldCheck, Sparkles, Sliders, Database, ArrowUpRight, Bot } from 'lucide-react';
 
 export const Sidebar = ({ activeTab, onSelectTab, metrics, isRunning, pendingApprovalCount = 0 }) => {
   const navSections = [
@@ -7,6 +7,7 @@ export const Sidebar = ({ activeTab, onSelectTab, metrics, isRunning, pendingApp
       title: 'DASHBOARDS',
       items: [
         { id: 'RECON', label: 'Continuous Recon', icon: Layers, badge: null },
+        { id: 'FLEET', label: 'Agent Fleet', icon: Bot, badge: '5 ACTIVE' },
         { id: 'APPROVAL', label: 'Approval Hub', icon: CheckSquare, badge: pendingApprovalCount > 0 ? pendingApprovalCount : null },
       ]
     },
@@ -68,7 +69,12 @@ export const Sidebar = ({ activeTab, onSelectTab, metrics, isRunning, pendingApp
                         <span>{item.label}</span>
                       </div>
                       {item.badge !== null && (
-                        <span className="px-1.5 py-0.5 rounded-md bg-amber-400 text-slate-950 text-[10px] font-bold font-mono">
+                        <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-bold font-mono ${
+                          item.badge === '5 ACTIVE'
+                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1'
+                            : 'bg-amber-400 text-slate-950'
+                        }`}>
+                          {item.badge === '5 ACTIVE' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />}
                           {item.badge}
                         </span>
                       )}
