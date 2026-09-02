@@ -3,10 +3,13 @@
 > **Autonomous 3-Way Financial Reconciliation, Anomaly Detection, and Lineage Platform**  
 > *Engineered for Payment Aggregators, Fintech Infrastructure, and High-Volume Merchants.*
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-ledger--trace--seven.vercel.app-emerald.svg?style=flat-square&logo=vercel)](https://ledger-trace-seven.vercel.app/)
 [![Tests](https://img.shields.io/badge/Unit%20Tests-39%2F39%20Passing-brightgreen.svg)]()
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%7C%20Python%203.10+-blue.svg)]()
 [![React](https://img.shields.io/badge/Frontend-React%2018%20%7C%20Vite%20%7C%20Tailwind-indigo.svg)]()
 [![License](https://img.shields.io/badge/License-MIT-black.svg)]()
+
+🚀 **Live Interactive Demo:** [https://ledger-trace-seven.vercel.app](https://ledger-trace-seven.vercel.app)
 
 ---
 
