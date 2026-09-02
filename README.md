@@ -9,7 +9,7 @@
 [![React](https://img.shields.io/badge/Frontend-React%2018%20%7C%20Vite%20%7C%20Tailwind-indigo.svg)]()
 [![License](https://img.shields.io/badge/License-MIT-black.svg)]()
 
-🚀 **Live Interactive Demo:** [https://ledger-trace-seven.vercel.app](https://ledger-trace-seven.vercel.app)
+**Live Interactive Demo:** [https://ledger-trace-seven.vercel.app](https://ledger-trace-seven.vercel.app)
 
 ---
 
