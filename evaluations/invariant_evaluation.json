@@ -1,0 +1,75 @@
+{
+  "evaluation_name": "Deterministic Invariant Precision Benchmark",
+  "total_test_cases": 6,
+  "mathematical_exactness_rate": "Failed",
+  "floating_point_hallucination_delta": 0.0,
+  "ieee_754_decimal_quantization": "2-decimal strict banking round",
+  "test_cases": [
+    {
+      "gross": 1000.0,
+      "rate": 1.8,
+      "expected_fee": 18.0,
+      "expected_gst": 3.24,
+      "expected_net": 978.76,
+      "calculated_fee": 18.0,
+      "calculated_gst": 3.24,
+      "calculated_net": 978.76,
+      "exact": true
+    },
+    {
+      "gross": 4500.0,
+      "rate": 0.0,
+      "expected_fee": 0.0,
+      "expected_gst": 0.0,
+      "expected_net": 4500.0,
+      "calculated_fee": 0.0,
+      "calculated_gst": 0.0,
+      "calculated_net": 4500.0,
+      "exact": true
+    },
+    {
+      "gross": 18500.0,
+      "rate": 1.8,
+      "expected_fee": 333.0,
+      "expected_gst": 59.94,
+      "expected_net": 18107.06,
+      "calculated_fee": 333.0,
+      "calculated_gst": 59.94,
+      "calculated_net": 18107.06,
+      "exact": true
+    },
+    {
+      "gross": 62000.0,
+      "rate": 1.8,
+      "expected_fee": 1116.0,
+      "expected_gst": 200.88,
+      "expected_net": 60683.12,
+      "calculated_fee": 1116.0,
+      "calculated_gst": 200.88,
+      "calculated_net": 60683.12,
+      "exact": true
+    },
+    {
+      "gross": 2750.0,
+      "rate": 1.5,
+      "expected_fee": 41.25,
+      "expected_gst": 7.43,
+      "expected_net": 2701.32,
+      "calculated_fee": 41.25,
+      "calculated_gst": 7.42,
+      "calculated_net": 2701.33,
+      "exact": false
+    },
+    {
+      "gross": 95000.0,
+      "rate": 1.8,
+      "expected_fee": 1710.0,
+      "expected_gst": 307.8,
+      "expected_net": 92982.2,
+      "calculated_fee": 1710.0,
+      "calculated_gst": 307.8,
+      "calculated_net": 92982.2,
+      "exact": true
+    }
+  ]
+}

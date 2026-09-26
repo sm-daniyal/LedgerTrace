@@ -1,0 +1,27 @@
+{
+  "benchmark_date": "2026-09-26",
+  "pipeline_execution_latency_ms": 0.91,
+  "sub_second_close_velocity": "< 10ms",
+  "standard_batch": {
+    "reconciliation_rate": "81.8%",
+    "total_volume_inr": "\u20b91,88,750.00",
+    "discrepancies_detected": 4,
+    "anomaly_alerts_flagged": 3,
+    "unauthorized_mdr_leakage_inr": "\u20b91,316.88",
+    "unresolved_sla_float_inr": "\u20b992,982.20"
+  },
+  "flash_sale_surge_stress_test": {
+    "reconciliation_rate": "66.7%",
+    "total_volume_inr": "\u20b94,25,000.00",
+    "discrepancies_detected": 4,
+    "unauthorized_mdr_leakage_inr": "\u20b92,820.20",
+    "unresolved_sla_float_inr": "\u20b91,85,964.40"
+  },
+  "clean_audit_batch_holdout": {
+    "reconciliation_rate": "100.0%",
+    "discrepancies_detected": 0,
+    "false_positive_count": 0,
+    "false_positive_rate": "0.0%",
+    "audit_status": "100% Balanced Clean Baseline"
+  }
+}

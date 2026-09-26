@@ -70,5 +70,7 @@ memory.md
 !contracts.json
 !package.json
 !tsconfig*.json
+!vercel.json
+!evaluations/*.json
 clean_subtitles.py
 render_video.py
