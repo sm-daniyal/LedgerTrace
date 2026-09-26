@@ -10,8 +10,8 @@
 [![Deterministic Math](https://img.shields.io/badge/Invariant%20Math-Zero%20Hallucinations-success.svg?style=flat-square)]()
 [![License](https://img.shields.io/badge/License-MIT-black.svg?style=flat-square)](LICENSE)
 
-🚀 **Live Interactive Deployment:** [https://ledger-trace-seven.vercel.app/](https://ledger-trace-seven.vercel.app/)  
-🎬 **Demo Video Walkthrough:** [Watch 1080p Video on YouTube](https://youtu.be/peOC1bBkhzY)
+* **Live Interactive Deployment:** [https://ledger-trace-seven.vercel.app/](https://ledger-trace-seven.vercel.app/)  
+* **Demo Video Walkthrough:** [Watch 1080p Video on YouTube](https://youtu.be/peOC1bBkhzY)
 
 ---
 
@@ -40,7 +40,7 @@ Every metric reported below is measured directly from automated evaluation artif
 | | **Double-Entry Journal Generation** | **100% Balanced** | Auto-generates balancing debit/credit vouchers ready for ERP posting (SAP/NetSuite) |
 | **Financial Impact Quantified** | **Recoverable MDR Leakage** | **₹1,316.88 – ₹2,820.20** | Unauthorized aggregator fee surcharges packaged into dispute claims |
 | | **At-Risk Floating Capital** | **₹92,982.20 – ₹1,85,964.40** | Floating capital floating beyond T+2 SLA isolated to protect payouts |
-| | **Orphan Order Recovery** | **100% Re-synced** | Resyncs captured orders stuck in `PENDING` due to HTTP 504 timeouts |
+| | **Orphan Order Recovery** | **100% Re-synced** | Resyncs captured orders stuck in PENDING due to HTTP 504 timeouts |
 
 ---
 
@@ -87,13 +87,9 @@ flowchart TD
     end
 
     subgraph S6["Stage 6: 4-Tier Financial Provenance DAG"]
-        OK & AP --> DAG["Merchant Order ➔ Gateway Capture ➔ Batch ID ➔ Bank UTR"]
+        OK & AP --> DAG["Merchant Order -> Gateway Capture -> Batch ID -> Bank UTR"]
     end
 ```
-
-<p align="center">
-  <img src="architecture.svg" alt="LedgerTrace Minimalist Architecture" width="100%" />
-</p>
 
 ---
 
@@ -101,16 +97,16 @@ flowchart TD
 
 LedgerTrace provides an executive operations control room built specifically for finance controllers, treasury teams, and fintech engineers:
 
-1. **Continuous Recon Cockpit (`/`)**: Real-time 3-way synchronization dashboard tracking live reconciliation velocity, gross volume (`₹1,88,750+`), net deposits, fee variance leakage, and rolling close progress.
+1. **Continuous Recon Cockpit (`/`)**: Real-time 3-way synchronization dashboard tracking live reconciliation velocity, gross volume (₹1,88,750+), net deposits, fee variance leakage, and rolling close progress.
 2. **Autonomous Agent Fleet (`/fleet`)**: Command center showcasing 5 specialized active agents:
-   * 🛡️ *MDR Dispute Dossier Compiler* (Compiles evidence packets for uncontracted surcharges).
-   * ⏱️ *Settlement SLA Velocity Monitor* (Tracks 48h clearing velocity and rolling risk reserve holds).
-   * 📈 *Treasury Cashflow Risk Analyzer* (Models liquidity risk to protect scheduled vendor disbursements).
-   * 🔄 *Synthetic Webhook Orchestrator* (Heals orphan orders from HTTP 504 timeouts).
-   * 📑 *Double-Entry Ledger Voucher Engine* (Drafts balanced debit/credit adjusting entries).
+   * **MDR Dispute Dossier Compiler**: Compiles evidence packets for uncontracted surcharges.
+   * **Settlement SLA Velocity Monitor**: Tracks 48h clearing velocity and rolling risk reserve holds.
+   * **Treasury Cashflow Risk Analyzer**: Models liquidity risk to protect scheduled vendor disbursements.
+   * **Synthetic Webhook Orchestrator**: Heals orphan orders from HTTP 504 timeouts.
+   * **Double-Entry Ledger Voucher Engine**: Drafts balanced debit/credit adjusting entries.
 3. **Forensic Discrepancy Drawer**: Deep-dive slide-over inspector detailing step-by-step tool traces, Bayesian root-cause probabilities, downstream P&L risk assessments, and cryptographic SHA-256 audit hashes.
 4. **SOX Human-in-the-Loop Approval Hub (`/approval`)**: Strict governance queue ensuring zero autonomous agents write directly to ledgers. Controllers review, approve, or reject staged Journal Vouchers with full idempotency protection.
-5. **4-Tier Financial Lineage DAG (`/lineage`)**: Interactive graph-based money trail tracing funds from **Merchant Order ➔ Gateway Capture ➔ Settlement Batch ➔ Bank UTR Credit**.
+5. **4-Tier Financial Lineage DAG (`/lineage`)**: Interactive graph-based money trail tracing funds from **Merchant Order -> Gateway Capture -> Settlement Batch -> Bank UTR Credit**.
 
 ---
 
@@ -123,7 +119,7 @@ $$\text{Expected GST} = \text{round}(\text{Expected Fee} \times 0.18, 2)$$
 $$\text{Expected Net Payout} = \text{Gross Amount} - (\text{Expected Fee} + \text{Expected GST})$$
 
 ### 4.2 Multi-Aggregator Fuzzy Ingestion
-Different payment gateways (Razorpay, Stripe, PayU, Cashfree) and banks (HDFC, ICICI, SBI) format column headers differently. `DataIngester` implements fuzzy column normalization supporting 8+ alias variations per field, with automatic currency sanitization (stripping commas, `₹`, `$`, and whitespace).
+Different payment gateways (Razorpay, Stripe, PayU, Cashfree) and banks (HDFC, ICICI, SBI) format column headers differently. `DataIngester` implements fuzzy column normalization supporting 8+ alias variations per field, with automatic currency sanitization (stripping commas, currency symbols, and whitespace).
 
 ### 4.3 SOX-Compliant Gated Accounting
 To prevent unauthorized ledger modifications, LedgerTrace implements an idempotent state machine:
