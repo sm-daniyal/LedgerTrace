@@ -212,7 +212,68 @@ OK
 
 ---
 
-## 9. Quickstart & Local Setup
+## 9. Repository Structure & Module Architecture
+
+```text
+LedgerTrace/
+├── backend/
+│   ├── app/
+│   │   ├── agents/                   # Autonomous forensic reasoning & SOX governance
+│   │   │   ├── approval.py           # Idempotent Human-in-the-Loop ApprovalQueue
+│   │   │   ├── controller.py         # Multi-scenario reconciliation controller
+│   │   │   ├── healing.py            # Synthetic webhook replay & dispute generators
+│   │   │   ├── investigator.py       # Bayesian forensic root-cause investigator
+│   │   │   ├── query_engine.py       # Natural language financial intelligence
+│   │   │   ├── reasoning.py          # Auditable tool-trace state machine & SHA-256 hasher
+│   │   │   └── tools.py              # Deterministic diagnostic tool registry
+│   │   ├── engine/                   # Core deterministic financial matching engines
+│   │   │   ├── anomaly_detector.py   # 5-algorithm statistical anomaly radar (Z-score & IQR)
+│   │   │   ├── calculators.py        # Strict IEEE-754 decimal invariant fee & GST calculators
+│   │   │   ├── continuous_engine.py  # Streaming continuous close engine
+│   │   │   ├── ingester.py           # Multi-aggregator fuzzy column aliasing & currency sanitizer
+│   │   │   ├── lineage_builder.py    # 4-Tier Provenance DAG topology builder
+│   │   │   └── matcher.py            # 3-way reconciliation matrix matcher
+│   │   ├── models/                   # Pydantic v2 schemas and graph topology definitions
+│   │   ├── config.py                 # System configuration & contracted rate card loader
+│   │   └── main.py                   # FastAPI application with SSE streaming endpoints
+│   ├── tests/                        # Comprehensive automated unit test suite (39 tests)
+│   ├── generate_evaluations.py       # Automated benchmark generator
+│   ├── requirements.txt              # Backend Python dependencies
+│   └── run.py                        # Uvicorn server entrypoint
+├── frontend/                         # Modern React 18 operations control room
+│   ├── src/
+│   │   ├── components/               # Modular fintech dashboard components
+│   │   │   ├── ActionCenter.jsx      # 1-click self-healing action modal
+│   │   │   ├── AgentDrawer.jsx       # Forensic investigation slide-over inspector
+│   │   │   ├── AgentFleet.jsx        # Specialized autonomous agent fleet dashboard
+│   │   │   ├── ApprovalHub.jsx       # SOX-compliant Human-in-the-Loop review queue
+│   │   │   ├── CloseCockpit.jsx      # Continuous close velocity & target metrics
+│   │   │   ├── DiscrepancyTable.jsx  # Anomaly radar & exception queue table
+│   │   │   ├── LineageGraph.jsx      # Interactive 4-Tier financial lineage DAG
+│   │   │   ├── NLSearchBar.jsx       # Conversational financial intelligence bar
+│   │   │   └── SummaryCards.jsx      # Executive financial KPIs & standby state
+│   │   ├── services/                 # API client & offline fallback data providers
+│   │   ├── App.jsx                   # Main state controller & tab router
+│   │   └── index.css                 # Design system tokens & Tailwind styles
+│   ├── package.json                  # Frontend dependencies
+│   ├── vercel.json                   # Production SPA edge routing rules
+│   └── vite.config.js                # Vite application bundler configuration
+├── evaluations/                      # Committed quantitative benchmark artifacts
+│   ├── governance_evaluation.json    # SOX policy compliance & idempotency audit
+│   ├── invariant_evaluation.json     # Mathematical exactness & zero-hallucination verification
+│   └── pipeline_outcome_summary.json # Velocity, match rates & false positive holdout metrics
+├── test_datasets/                    # Realistic multi-source evaluation feeds
+│   ├── bank_statement_august.csv     # Corporate bank UTR credit statements
+│   ├── data_dictionary.md            # Field-by-field schema & constraint documentation
+│   ├── gateway_settlement_mis_august.csv # Gateway settlement reports with MDR fees & GST
+│   ├── merchant_orders_august.csv    # Merchant internal OMS order feeds
+│   └── README.md                     # Testing & ingestion instructions
+└── LICENSE                           # MIT License
+```
+
+---
+
+## 10. Quickstart & Local Setup
 
 ### Backend (FastAPI)
 ```bash
@@ -234,7 +295,7 @@ npm run dev
 
 ---
 
-## 10. Tech Stack
+## 11. Tech Stack
 
 * **Backend Engine:** Python 3.12+, FastAPI, Pydantic v2, NumPy, Server-Sent Events (SSE).
 * **Frontend UI:** React 18, Vite, Tailwind CSS, Lucide Icons.
@@ -243,6 +304,6 @@ npm run dev
 
 ---
 
-## 11. License
+## 12. License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
