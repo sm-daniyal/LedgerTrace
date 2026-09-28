@@ -18,6 +18,7 @@ from app.agents.approval import ApprovalQueue
 from app.agents.query_engine import QueryEngine
 from app.engine.anomaly_detector import AnomalyDetector, AnomalyAlert
 from app.engine.continuous_engine import ContinuousReconEngine, EventType
+from app.engine.ml_dispute_scorer import MLDisputeScorer
 
 
 SAMPLE_CONTRACTS = {
@@ -425,6 +426,57 @@ class TestContinuousEngine(unittest.TestCase):
         self.engine.reset()
         state = self.engine.get_live_state()
         self.assertEqual(state["source_counts"]["merchant_orders"], 0)
+
+
+class TestMLDisputeScorer(unittest.TestCase):
+    """Tests for ML Dispute Recoverability & Resolution Scoring."""
+
+    def setUp(self):
+        self.scorer = MLDisputeScorer()
+
+    def test_mdr_dispute_scoring_high_probability(self):
+        discrepancy = {
+            "type": "MDR_OVERCHARGE",
+            "impact_amount": 1316.88,
+            "details": {
+                "gateway_payment_id": "pay_9003",
+                "bank_ref_no": "UTR_9003",
+                "variance_pct": 1.4,
+                "reason": "Unauthorized AMEX Card Surcharge"
+            }
+        }
+        res = self.scorer.predict_recovery_probability(discrepancy)
+        self.assertGreaterEqual(res["predicted_recovery_probability"], 0.85)
+        self.assertEqual(res["confidence_band"], "HIGH")
+        self.assertEqual(res["recommended_action"], "DISPUTE_DOSSIER_SUBMISSION")
+        self.assertIn("variance_pct", res["feature_contributions"])
+
+    def test_dropped_webhook_resync_scoring(self):
+        discrepancy = {
+            "type": "DROPPED_WEBHOOK",
+            "impact_amount": 42000.00,
+            "details": {
+                "gateway_payment_id": "pay_9005",
+                "reason": "HTTP 504 Gateway Timeout on Payment Capture"
+            }
+        }
+        res = self.scorer.predict_recovery_probability(discrepancy)
+        self.assertGreaterEqual(res["predicted_recovery_probability"], 0.90)
+        self.assertEqual(res["recommended_action"], "SYNTHETIC_WEBHOOK_RESYNC")
+
+    def test_feature_contributions_and_metadata(self):
+        discrepancy = {
+            "type": "SETTLEMENT_DELAY",
+            "impact_amount": 92982.20,
+            "details": {
+                "gateway_payment_id": "pay_9008",
+                "bank_ref_no": "UTR_9008"
+            }
+        }
+        res = self.scorer.predict_recovery_probability(discrepancy)
+        self.assertIn("feature_importance_pct", res)
+        self.assertIn("model_metadata", res)
+        self.assertEqual(res["model_metadata"]["classifier"], "Logistic Gradient Scoring Kernel")
 
 
 if __name__ == "__main__":
