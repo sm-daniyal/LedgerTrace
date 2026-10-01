@@ -4,14 +4,13 @@
 > *Engineered for Payment Aggregators (Razorpay, Stripe, PayU), High-Volume Merchants, and Continuous Financial Close.*
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-ledger--trace--seven.vercel.app-emerald.svg?style=flat-square&logo=vercel)](https://ledger-trace-seven.vercel.app/)
-[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-39%2F39%20Passing%20(100%25)-brightgreen.svg?style=flat-square)]()
+[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-42%2F42%20Passing%20(100%25)-brightgreen.svg?style=flat-square)]()
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%7C%20Python%203.12+-blue.svg?style=flat-square)]()
 [![React](https://img.shields.io/badge/Frontend-React%2018%20%7C%20Vite%20%7C%20Tailwind-indigo.svg?style=flat-square)]()
 [![Deterministic Math](https://img.shields.io/badge/Invariant%20Math-Zero%20Hallucinations-success.svg?style=flat-square)]()
 [![License](https://img.shields.io/badge/License-MIT-black.svg?style=flat-square)](LICENSE)
 
-* **Live Interactive Deployment:** [https://ledger-trace-seven.vercel.app/](https://ledger-trace-seven.vercel.app/)  
-* **Demo Video Walkthrough:** [Watch 1080p Video on YouTube](https://youtu.be/peOC1bBkhzY)
+* **Live Interactive Deployment:** [https://ledger-trace-seven.vercel.app/](https://ledger-trace-seven.vercel.app/)
 
 ---
 
