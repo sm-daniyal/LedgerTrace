@@ -478,6 +478,57 @@ class TestMLDisputeScorer(unittest.TestCase):
         self.assertIn("model_metadata", res)
         self.assertEqual(res["model_metadata"]["classifier"], "Logistic Gradient Scoring Kernel")
 
+    def test_additivity_verification_exactness(self):
+        discrepancy = {
+            "type": "MDR_OVERCHARGE",
+            "impact_amount": 2820.20,
+            "details": {
+                "gateway_payment_id": "pay_9011",
+                "bank_ref_no": "UTR_9011",
+                "variance_pct": 2.1,
+                "reason": "Unauthorized AMEX Card Surcharge"
+            }
+        }
+        res = self.scorer.predict_recovery_probability(discrepancy)
+        self.assertTrue(res["additivity_verified"])
+        self.assertLess(res["additivity_delta"], 0.001)
+
+    def test_dispute_economics_viable_claim(self):
+        discrepancy = {
+            "type": "MDR_OVERCHARGE",
+            "impact_amount": 1316.88,
+            "details": {
+                "gateway_payment_id": "pay_9012",
+                "bank_ref_no": "UTR_9012",
+                "variance_pct": 1.4
+            }
+        }
+        res = self.scorer.predict_recovery_probability(discrepancy)
+        econ = res["dispute_economics"]
+        self.assertTrue(econ["is_economically_viable"])
+        self.assertEqual(econ["cost_optimal_action"], "PROCEED_DIRECT_DISPUTE")
+        self.assertGreater(econ["expected_net_recovery_inr"], 1000.0)
+
+    def test_dispute_economics_uneconomic_micro_charge(self):
+        discrepancy = {
+            "type": "MDR_OVERCHARGE",
+            "impact_amount": 20.00,
+            "details": {
+                "variance_pct": 0.1
+            }
+        }
+        res = self.scorer.predict_recovery_probability(discrepancy)
+        econ = res["dispute_economics"]
+        self.assertFalse(econ["is_economically_viable"])
+        self.assertEqual(econ["cost_optimal_action"], "AUTO_WRITE_OFF_UNECONOMIC")
+        self.assertIn("dispute is uneconomic", econ["economic_rationale"])
+
+    def test_threshold_cost_curve_sweep(self):
+        res = self.scorer.compute_threshold_cost_curve()
+        self.assertEqual(res["optimal_threshold"], 0.40)
+        self.assertIn("cost_curve", res)
+        self.assertGreater(len(res["cost_curve"]), 5)
+
 
 if __name__ == "__main__":
     unittest.main()

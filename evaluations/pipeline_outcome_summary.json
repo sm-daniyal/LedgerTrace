@@ -1,6 +1,6 @@
 {
   "benchmark_date": "2026-09-26",
-  "pipeline_execution_latency_ms": 0.91,
+  "pipeline_execution_latency_ms": 1.65,
   "sub_second_close_velocity": "< 10ms",
   "standard_batch": {
     "reconciliation_rate": "81.8%",

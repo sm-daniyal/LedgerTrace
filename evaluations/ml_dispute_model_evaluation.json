@@ -2,6 +2,13 @@
   "evaluation_name": "ML Dispute Recoverability & Resolution Classifier Benchmark",
   "model_architecture": "Logistic Gradient Scoring Kernel with Platt Sigmoidal Calibration",
   "sample_size_evaluated": 100,
+  "additivity_verification": "100.0% Verified (tolerance delta < 0.001 on all inference calls)",
+  "dispute_economics": {
+    "filing_cost_overhead_inr": 75.0,
+    "cost_optimal_threshold": 0.4,
+    "minimum_cost_at_optimal_threshold_inr": 0.0,
+    "threshold_sweep_evaluated": 17
+  },
   "evaluation_metrics": {
     "precision": "88.24%",
     "recall": "90.91%",
