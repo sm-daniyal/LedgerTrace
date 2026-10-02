@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { X, Cpu, CheckCircle2, FileCheck, Terminal, ShieldAlert, Clock, Sparkles, AlertTriangle, ArrowRight, Layers, Hash } from 'lucide-react';
 import { resolveWebhook, postJournalVoucher, generateDisputePacket } from '../services/api';
+import { DisputeEconomicsPanel } from './DisputeEconomicsPanel';
 
 export const AgentDrawer = ({ discrepancy, onClose, onActionCompleted }) => {
   const [loadingAction, setLoadingAction] = useState(null);
-  const [activeTab, setActiveTab] = useState('REASONING'); // REASONING | HYPOTHESES | RISK
+  const [activeTab, setActiveTab] = useState('REASONING'); // REASONING | HYPOTHESES | ML_ECONOMICS | RISK
 
   if (!discrepancy) return null;
 
@@ -122,7 +123,8 @@ export const AgentDrawer = ({ discrepancy, onClose, onActionCompleted }) => {
       <div className="flex border-b border-slate-200 bg-white px-6">
         {[
           { id: 'REASONING', label: `Investigation Steps (${steps.length || 3})` },
-          { id: 'HYPOTHESES', label: `Hypotheses & Ranking (${hypotheses.length || 2})` },
+          { id: 'HYPOTHESES', label: `Hypotheses (${hypotheses.length || 2})` },
+          { id: 'ML_ECONOMICS', label: 'ML Dispute ROI' },
           { id: 'RISK', label: 'Downstream Risk' }
         ].map((tab) => (
           <button
@@ -276,6 +278,11 @@ export const AgentDrawer = ({ discrepancy, onClose, onActionCompleted }) => {
               </p>
             </div>
           </div>
+        )}
+
+        {/* Tab 4: ML & Dispute ROI Economics */}
+        {activeTab === 'ML_ECONOMICS' && (
+          <DisputeEconomicsPanel discrepancy={discrepancy} />
         )}
 
         {/* Proposed Resolution Callout */}
