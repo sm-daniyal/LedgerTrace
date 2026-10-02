@@ -4,6 +4,7 @@
 > *Engineered for Payment Aggregators (Razorpay, Stripe, PayU), High-Volume Merchants, and Continuous Financial Close.*
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-ledger--trace--seven.vercel.app-emerald.svg?style=flat-square&logo=vercel)](https://ledger-trace-seven.vercel.app/)
+[![CI Pipeline](https://github.com/sm-daniyal/LedgerTrace/actions/workflows/ci.yml/badge.svg)](https://github.com/sm-daniyal/LedgerTrace/actions)
 [![Unit Tests](https://img.shields.io/badge/Unit%20Tests-46%2F46%20Passing%20(100%25)-brightgreen.svg?style=flat-square)]()
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%7C%20Python%203.12+-blue.svg?style=flat-square)]()
 [![React](https://img.shields.io/badge/Frontend-React%2018%20%7C%20Vite%20%7C%20Tailwind-indigo.svg?style=flat-square)]()
