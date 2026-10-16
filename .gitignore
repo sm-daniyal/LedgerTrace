@@ -54,13 +54,9 @@ Thumbs.db
 *.swo
 
 # Internal Documentation, Scripts & Manuals (Excluded from GitHub)
-docs/
-docs/*
 *.pdf
 *demo*.md
 DEMO_SCRIPT.md
-*architecture*.md
-ARCHITECTURE.md
 memory.md
 *.mp4
 *.wav

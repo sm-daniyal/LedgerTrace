@@ -17,7 +17,11 @@
 
 ## 1. Verified Pipeline & Evaluation Benchmarks
 
-Every metric reported below is measured directly from automated evaluation artifacts generated in this repository: [`evaluations/invariant_evaluation.json`](evaluations/invariant_evaluation.json), [`evaluations/pipeline_outcome_summary.json`](evaluations/pipeline_outcome_summary.json), [`evaluations/governance_evaluation.json`](evaluations/governance_evaluation.json), and [`evaluations/ml_dispute_model_evaluation.json`](evaluations/ml_dispute_model_evaluation.json).
+Every metric reported below is measured directly from automated evaluation artifacts generated in this repository and verified against formal mathematical specifications in [`docs/`](docs/):
+* [Reconciliation Invariants & Rate Card Float SLAs](docs/reconciliation_invariants.md)
+* [ML Dispute Economics, Loss Formulations & Threshold Sweep](docs/ml_dispute_economics.md)
+* [SOX 404 Governance, Idempotency & ERP Journal Export](docs/sox_governance.md)
+* [System Architecture & Multi-Tier Topology](docs/ARCHITECTURE.md)
 
 | Pipeline Stage | Evaluation Dimension | Metric / Value | Ground-Truth Artifact / Verification Details |
 | :--- | :--- | :---: | :--- |
@@ -223,6 +227,11 @@ OK
 
 ```text
 LedgerTrace/
+├── docs/                             # Formal mathematical & architectural specifications
+│   ├── ARCHITECTURE.md               # End-to-end 6-tier system architecture & dataflow DAG
+│   ├── ml_dispute_economics.md       # Sigmoid calibration, Shapley additivity & loss matrix
+│   ├── reconciliation_invariants.md  # 3-way stream invariants, MDR/GST math & float SLAs
+│   └── sox_governance.md             # SOX 404 segregation of duties & ERP voucher schemas
 ├── backend/
 │   ├── app/
 │   │   ├── agents/                   # Autonomous forensic reasoning & SOX governance
