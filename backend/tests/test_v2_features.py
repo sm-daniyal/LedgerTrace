@@ -292,6 +292,37 @@ class TestApprovalQueue(unittest.TestCase):
         self.assertEqual(log[0]["event_type"], "ACTION_PROPOSED")
         self.assertEqual(log[1]["event_type"], "ACTION_APPROVED_AND_EXECUTED")
 
+    def test_export_erp_journal_voucher(self):
+        # 1. Non-existent action returns error
+        err_res = self.queue.export_erp_journal_voucher("ACT_NONEXISTENT")
+        self.assertIn("error", err_res)
+
+        # 2. Unapproved action returns error
+        action = self.queue.propose_action(
+            "POST_JOURNAL",
+            {"discrepancy_id": "DISC_MDR_001", "disc_type": "MDR_OVERCHARGE", "amount": 1316.88, "order_id": "ORD_9003"},
+            "Forensic investigation report ref RPT_9003", 0.98, "DISC_MDR_001", "ORD_9003"
+        )
+        unapproved_res = self.queue.export_erp_journal_voucher(action.action_id)
+        self.assertIn("error", unapproved_res)
+
+        # 3. Approve and export
+        self.queue.approve(action.action_id)
+        voucher = self.queue.export_erp_journal_voucher(action.action_id, approved_by="controller@merchant.com")
+        self.assertNotIn("error", voucher)
+        self.assertEqual(voucher["currency"], "INR")
+        self.assertTrue(voucher["is_balanced"])
+        self.assertEqual(voucher["total_debit"], 1316.88)
+        self.assertEqual(voucher["total_credit"], 1316.88)
+        self.assertEqual(voucher["approved_by"], "controller@merchant.com")
+        self.assertEqual(len(voucher["sox_audit_hash"]), 64)
+        self.assertEqual(len(voucher["lines"]), 2)
+        self.assertEqual(voucher["lines"][0]["account_code"], "6120")
+        self.assertEqual(voucher["lines"][1]["account_code"], "1150")
+        self.assertEqual(voucher["lines"][0]["debit"], 1316.88)
+        self.assertEqual(voucher["lines"][1]["credit"], 1316.88)
+
+
 
 class TestQueryEngine(unittest.TestCase):
     """Tests for Feature 5: Natural Language Query Engine."""

@@ -5,7 +5,7 @@
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-ledger--trace--seven.vercel.app-emerald.svg?style=flat-square&logo=vercel)](https://ledger-trace-seven.vercel.app/)
 [![CI Pipeline](https://github.com/sm-daniyal/LedgerTrace/actions/workflows/ci.yml/badge.svg)](https://github.com/sm-daniyal/LedgerTrace/actions)
-[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-46%2F46%20Passing%20(100%25)-brightgreen.svg?style=flat-square)]()
+[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-47%2F47%20Passing%20(100%25)-brightgreen.svg?style=flat-square)]()
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%7C%20Python%203.12+-blue.svg?style=flat-square)]()
 [![React](https://img.shields.io/badge/Frontend-React%2018%20%7C%20Vite%20%7C%20Tailwind-indigo.svg?style=flat-square)]()
 [![Deterministic Math](https://img.shields.io/badge/Invariant%20Math-Zero%20Hallucinations-success.svg?style=flat-square)]()
@@ -192,9 +192,9 @@ LedgerTrace is engineered specifically as a continuous 3-way financial reconcili
 
 ---
 
-## 8. Automated Test Suite (39 / 39 Passing)
+## 8. Automated Test Suite (47 / 47 Passing)
 
-The platform is backed by a comprehensive Python test suite covering engine math, anomaly detection algorithms, agent reasoning, query engine, and approval state machines:
+The platform is backed by a comprehensive Python test suite covering engine math, anomaly detection algorithms, agent reasoning, query engine, ML dispute economics, and SOX-compliant approval state machines:
 
 ```bash
 cd backend
@@ -205,18 +205,19 @@ python -m unittest discover -s tests -v
 test_fee_calculator (test_engine.TestLedgerTraceEngine) ... ok
 test_full_reconciliation_pipeline (test_engine.TestLedgerTraceEngine) ... ok
 test_mdr_invariant_detector (test_engine.TestLedgerTraceEngine) ... ok
-test_assess_downstream_impact_critical (test_v2_features.TestAgentTools) ... ok
-test_amount_outlier_detection (test_v2_features.TestAnomalyDetector) ... ok
-test_duplicate_transaction_detection (test_v2_features.TestAnomalyDetector) ... ok
+test_additivity_verification_exactness (test_v2_features.TestMLDisputeScorer) ... ok
+test_dispute_economics_viable_claim (test_v2_features.TestMLDisputeScorer) ... ok
+test_threshold_cost_curve_sweep (test_v2_features.TestMLDisputeScorer) ... ok
 test_fee_rate_drift_detection (test_v2_features.TestAnomalyDetector) ... ok
 test_no_false_positives_on_clean_data (test_v2_features.TestAnomalyDetector) ... ok
 test_approve_action (test_v2_features.TestApprovalQueue) ... ok
 test_cannot_approve_twice (test_v2_features.TestApprovalQueue) ... ok
+test_export_erp_journal_voucher (test_v2_features.TestApprovalQueue) ... ok
 test_dropped_webhook_detection (test_v2_features.TestContinuousEngine) ... ok
 test_mdr_overcharge_investigation (test_v2_features.TestForensicInvestigator) ... ok
 test_reasoning_chain_build_report (test_v2_features.TestReasoningChain) ... ok
 ----------------------------------------------------------------------
-Ran 39 tests in 0.011s
+Ran 47 tests in 0.012s
 
 OK
 ```
@@ -315,7 +316,7 @@ npm run dev
 
 * **Backend Engine:** Python 3.12+, FastAPI, Pydantic v2, NumPy, Server-Sent Events (SSE).
 * **Frontend UI:** React 18, Vite, Tailwind CSS, Lucide Icons.
-* **Testing & Verification:** Python `unittest` (39 comprehensive test cases, 100% passing).
+* **Testing & Verification:** Python `unittest` (47 comprehensive test cases, 100% passing).
 * **Deployment:** Vercel Global Edge CDN.
 
 ---

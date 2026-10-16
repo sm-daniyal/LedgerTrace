@@ -218,6 +218,14 @@ def reject_action(action_id: str, req: RejectRequest):
         raise HTTPException(status_code=400, detail=result["error"])
     return result
 
+@app.get("/api/approval/{action_id}/export-erp")
+def export_erp_voucher(action_id: str, approved_by: str = "controller@merchant.com"):
+    """Export standardized double-entry journal voucher for ERP ingestion (NetSuite/DualEntry/SAP)."""
+    result = approval_queue.export_erp_journal_voucher(action_id, approved_by)
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
+    return result
+
 @app.get("/api/audit-log")
 def get_audit_log():
     """Return the full audit trail of all approval workflow events."""
